@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
 
+
+
     const [text, setText] = useState("Hello")
     return (
         <div>
