@@ -1,10 +1,12 @@
 import { Episode, EpisodeAction, EpisodeState } from "./action/Type";
 import * as actionType from "./action/ActionTypes"
 
-
+/*
 const initialState: EpisodeState = {
     episodes: []
 }   
+*/
+
 /**
  * Tar inn en state og en action som ønskes å utføre
  * Sjekker hvilken Action som ønsker å utføre, går inn i different cases
@@ -14,6 +16,16 @@ const initialState: EpisodeState = {
  * @param action Handling vi ønsker å utføre, feks addEpisode
  * @returns en oppdatert state
  */
+const initialState: EpisodeState = {
+    episodes: [
+    {
+        title: "test",
+        episode: 2,
+        score: 9,
+    }
+    ]
+}
+
 const reducer = (
     state: EpisodeState = initialState,
     action: EpisodeAction,

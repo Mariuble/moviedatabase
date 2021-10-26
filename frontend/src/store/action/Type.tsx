@@ -13,5 +13,3 @@ export interface EpisodeAction {
 export interface EpisodeState {
     episodes: Episode[]
 }
-
-type DispatchType = (args: EpisodeAction) => EpisodeAction

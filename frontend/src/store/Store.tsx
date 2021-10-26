@@ -1,20 +1,14 @@
-import { applyMiddleware, configureStore, createStore, Store } from "@reduxjs/toolkit";
-import { render } from "@testing-library/react";
-import { Dispatch } from "react";
-import { Provider } from "react-redux";
+import { applyMiddleware, createStore, Store } from "redux"
+import { EpisodeAction, EpisodeState } from "./action/Type"
+import reducer from "./Reducer"
 import thunk from "redux-thunk";
-import App from "../App";
-import { EpisodeAction, EpisodeState } from "./action/Type";
-import reducer from "./Reducer";
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+
+type DispatchType = (args: EpisodeAction) => EpisodeAction
 
 const store: Store<EpisodeState, EpisodeAction> & {
-    dispatch: Dispatch//Type
-} = createStore(reducer, applyMiddleware(thunk))
+    dispatch: DispatchType
+} = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 
-const rootElement = document.getElementById("root")
-render(
-    <Provider store = {store}>
-        <App></App>
-    </Provider>
-    rootElement
-)
+export default store
