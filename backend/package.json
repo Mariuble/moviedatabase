@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "Project 3 - Search",
   "main": "server.ts",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon backend/server.ts",
-    "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon server.ts",
+    "data:import": "node dist/config/seeder",
+    "data:destroy": "node config/seeder -d",
+    "build": "tsc -p ."
   },
   "eslintConfig": {
     "extends": [
@@ -23,7 +24,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.6.2",
+    "@types/graphql": "^14.5.0",
     "colors": "^1.4.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
