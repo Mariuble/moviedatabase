@@ -7,7 +7,6 @@ function App() {
   return (
     <div className="App">
       <SearchField></SearchField>
-      <Episode></Episode>
     </div>
   );
 }
