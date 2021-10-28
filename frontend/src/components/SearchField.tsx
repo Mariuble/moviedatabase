@@ -4,6 +4,8 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { EpisodeState } from '../store/action/Type'
 
+
+
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
 
@@ -32,7 +34,7 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(mapStateToProps, /*mapDispatchToProps*/)(SearchField)
+export default connect(/*mapStateToProps, /*mapDispatchToProps*/)(SearchField)
 
 
 

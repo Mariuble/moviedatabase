@@ -8,7 +8,7 @@ import ReactDom from "react-dom"
 import ReactDOM from "react-dom";
 import React from "react";
 import reportWebVitals from "./reportWebVitals";
-import store from "./store/store"
+import store from "./store/Store"
 
 
 const rootElement = document.getElementById("root")
