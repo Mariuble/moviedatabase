@@ -1,6 +1,10 @@
 import { setUncaughtExceptionCaptureCallback } from 'process'
+import { stringify } from 'querystring'
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { EpisodeState } from '../store/action/Type'
+
+
 
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
@@ -19,18 +23,20 @@ export const SearchField = (props: any) => {
         setText(value)
     }
 }
-//PASS PÅ ANY
-/*
-const mapStateToProps = (state: any) => ({
-    
-})
+
+const mapStateToProps = (state: EpisodeState) => {
+    return {
+    epsiodes: state.episodes
+    }
+}
+
 
 const mapDispatchToProps = {
     
 }
-*/
 
-export default /*connect(mapStateToProps, mapDispatchToProps)*/(SearchField)
+
+export default connect(/*mapStateToProps, /*mapDispatchToProps*/)(SearchField)
 
 
 
