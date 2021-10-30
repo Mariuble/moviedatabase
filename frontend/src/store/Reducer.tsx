@@ -21,8 +21,23 @@ const initialState: EpisodeState = {
     {
         title: "test",
         episode: 2,
-        score: 9,
-    }
+        score: 6,
+    },
+    {
+        title: "Øverst på score",
+        episode: 19,
+        score: 10,
+    },
+    {
+        title: "test3",
+        episode: 8,
+        score: 7,
+    },
+    {
+        title: "test4",
+        episode: 6,
+        score: 10,
+    },
     ]
 }
 
