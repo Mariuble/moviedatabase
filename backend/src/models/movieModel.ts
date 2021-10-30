@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+// Defining the data in the actual database. One const per 'collection'
 const movieSchema = new mongoose.Schema({
     Title: {
         type: String,

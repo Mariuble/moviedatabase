@@ -1,39 +1,31 @@
 import express from 'express'
-import dotenv from 'dotenv'
 import connectDB from './config/db'
-import { graphqlHTTP } from 'express-graphql'
-import movieSchema from './models/movieModel'
-import { buildSchema } from 'graphql'
+import schema from './schemas/movieSchema'
+import { ApolloServer } from 'apollo-server-express'
 
-dotenv.config()
-const PORT = process.env.PORT || 5000
+const startServer = async () => {
+  const PORT = process.env.PORT || 5000
 
-const app = express()
+  const app = express()
 
-const init = async () => {
+  // Connect to the database
+  const init = async () => {
     await connectDB()
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`)
+    console.log(
+      `Server running in ${process.env.NODE_ENV} mode on localhost:${PORT}`
+    )
+  }
+
+  app.use(express.json()) // Allow JSON data in body
+
+  const server = new ApolloServer({
+    schema: schema, // implicit typeDefs and resolver
+  })
+
+  await server.start()
+  server.applyMiddleware({ app, path: '/graphql' }) // add middleware to handle graphql requests
+
+  app.listen(PORT, init)
 }
 
-// The root provides a resolver function for each API endpoint
-var root = {
-    hello: () => {
-        return 'Hello world!';
-    },
-};
-
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-app.use(express.json()) // Allow JSON data in body
-
-app.use('/graphql', graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-}))
-
-app.listen(PORT, init)
+startServer()
