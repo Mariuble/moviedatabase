@@ -1,6 +1,8 @@
+import movieModel from "../models/movieModel"
+
 // how to return the data for the schema operations
 export const resolvers = {
   Query: {
-    hello: () => 'hello'
+    movies: () => movieModel.find()
   }
 }
