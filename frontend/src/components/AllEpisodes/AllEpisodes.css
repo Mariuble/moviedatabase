@@ -4,15 +4,12 @@ div {
 
 .SearchSort {
   margin-bottom: 20px;
-  display: flexbox;
-}
-
-#dropdown-menu,
-#dropdown-menu2 {
-  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 @media only screen and (max-width: 460px) {
+  .SearchSort > #searchField,
   #dropdown-menu,
   #dropdown-menu2 {
     width: 100%;
