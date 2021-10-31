@@ -3,8 +3,8 @@ import { gql, useQuery } from '@apollo/client'
 import { Spinner } from '@chakra-ui/react'
 
 export const SEARCH_ANIMES = gql`
-  query RootQueryType {
-    movieByTitle(title: "code", first: 5, offset: 5) {
+  query RootQueryType($title: String!, $offset: Int) {
+    movieByTitle(title: $title, first: 10, offset: $offset) {
       Title
       Type
     }
@@ -12,14 +12,28 @@ export const SEARCH_ANIMES = gql`
 `
 
 const Animes = () => {
-  const { loading, error, data } = useQuery(SEARCH_ANIMES)
+  const [baseTitle, setBaseTitle] = useState('a')
+  const [baseOffset, setBaseOffset] = useState(0)
+  const { loading, error, data } = useQuery(SEARCH_ANIMES, {
+    variables: { title: baseTitle, offset: baseOffset },
+  })
 
+  const handleSearch = (e: any) => {
+    if (e.key === 'Enter') {
+      setBaseTitle(e.target.value)
+    }
+  }
+  const handleNextPage = () => {
+    setBaseOffset(10)
+    console.log('hei')
+  }
   if (loading) return <Spinner />
   const { movies } = data
   console.log(movies)
   return (
     <div>
-      <h1>animes go here</h1>
+      <input type='text' placeholder='Search' onKeyDown={handleSearch} />
+      <h1>Animes go here</h1>
       <h2>
         {data.movieByTitle.map((movie: any) => (
           <tr>
@@ -28,6 +42,7 @@ const Animes = () => {
           </tr>
         ))}
       </h2>
+      <button onClick={handleNextPage}>Next page</button>
       {/* {data.map((item: { Title: {} | null | undefined }) => (
         <tr>
           <td>{item.Title}</td>
