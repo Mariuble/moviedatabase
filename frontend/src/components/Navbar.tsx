@@ -15,6 +15,7 @@ import {
     Stack,
     useColorMode,
     Center,
+    HStack,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
@@ -35,12 +36,22 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 export default function Nav() {
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const Links = ['Movies', 'Register Movie'];
     return (
         <>
             <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'} verticalAlign={'middle'}>
                     <h1>Project-3</h1>
 
+                    <HStack
+                        as={'nav'}
+                        spacing={4}
+                        display={{ base: 'none', md: 'flex' }}>
+                        {Links.map((link) => (
+                            <NavLink key={link}>{link}</NavLink>
+                        ))}
+                    </HStack>
                     <Flex alignItems={'center'}>
                         <Stack direction={'row'} spacing={7}>
                             <Button onClick={toggleColorMode}>
@@ -59,24 +70,6 @@ export default function Nav() {
                                         src={'https://avatars.dicebear.com/api/male/username.svg'}
                                     />
                                 </MenuButton>
-                                <MenuList alignItems={'center'}>
-                                    <br />
-                                    <Center>
-                                        <Avatar
-                                            size={'2xl'}
-                                            src={'https://avatars.dicebear.com/api/male/username.svg'}
-                                        />
-                                    </Center>
-                                    <br />
-                                    <Center>
-                                        <p>Username</p>
-                                    </Center>
-                                    <br />
-                                    <MenuDivider />
-                                    <MenuItem>Your Servers</MenuItem>
-                                    <MenuItem>Account Settings</MenuItem>
-                                    <MenuItem>Logout</MenuItem>
-                                </MenuList>
                             </Menu>
                         </Stack>
                     </Flex>
