@@ -1,41 +1,44 @@
 import React, { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
 import { Spinner } from '@chakra-ui/react'
+import { Episode, EpisodeState } from '../store/action/Type'
+import store from '../store/Store'
+import { useSelector } from 'react-redux'
 
 export const SEARCH_ANIMES = gql`
   query RootQueryType {
     movieByTitle(title: "code", first: 5, offset: 5) {
       Title
-      Type
+      Episodes
+      Score
     }
   }
 `
 
 const Animes = () => {
   const { loading, error, data } = useQuery(SEARCH_ANIMES)
+  //const episodes = useSelector((state: EpisodeState) => state.episodes)
+
+  function addEpisode(episode: Episode) {
+    return {
+      type: 'addepisode',
+      episode: episode,
+    }
+  }
 
   if (loading) return <Spinner />
   const { movies } = data
   console.log(movies)
-  return (
-    <div>
-      <h1>animes go here</h1>
-      <h2>
-        {data.movieByTitle.map((movie: any) => (
-          <tr>
-            <td>{movie.Title}</td>
-            <td>{movie.Type}</td>
-          </tr>
-        ))}
-      </h2>
-      {/* {data.map((item: { Title: {} | null | undefined }) => (
-        <tr>
-          <td>{item.Title}</td>
-          <td>{item.Title}</td>
-        </tr>
-      ))} */}
-    </div>
-  )
+  for (let index = 0; index < data.movieByTitle.length; index++) {
+    const element = data.movieByTitle[index]
+    const newEpisode: Episode = {
+      title: element.Title,
+      score: element.Score,
+      episode: element.Episodes,
+    }
+    store.dispatch(addEpisode(newEpisode))
+  }
+  return <div></div>
 }
 
 export default Animes

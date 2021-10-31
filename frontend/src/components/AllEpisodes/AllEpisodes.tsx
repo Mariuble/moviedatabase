@@ -7,6 +7,7 @@ import { Episode } from '../../store/action/Type'
 import store from '../../store/Store'
 import { DropdownButton, Dropdown } from 'react-bootstrap'
 import './AllEpisodes.css'
+import { gql, useQuery } from '@apollo/client'
 
 //PASS PÅ ANY
 export const AllEpisodes = (props: any) => {
@@ -15,6 +16,7 @@ export const AllEpisodes = (props: any) => {
   const [text, setText] = useState('')
   const [searchBy, setSearch] = useState('Title')
   const [SortOn, setSort] = useState('Title')
+
   const handleSearch = (e: any) => {
     console.log(e)
     setSearch(e)
