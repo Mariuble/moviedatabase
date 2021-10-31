@@ -8,7 +8,7 @@ export class Episode extends Component {
         //REQUEST TO DATABASE, GET
     }
 
-    
+
 
     render() {
         return (
@@ -18,23 +18,23 @@ export class Episode extends Component {
                 <p>Episode</p>
                 <p>Score</p>
                 <div className="EkstraInfo">
-                <h2>Tillegsinfo show/hide</h2>
-                <p>Status</p>
-                <p>Start airing</p>
-                <p>End airing</p>
-                <p>Starting season</p>
-                <p>Broadcast time</p>
-                <p>Producers</p>
-                <p>Licensors</p>
-                <p>Studios</p>
-                <p>Sources</p>
-                <p>Genres</p>
-                <p>Duration</p>
-                <p>Rating</p>
-                <p>Scored by</p>
-                <p>Members</p>
-                <p>Favorites</p>
-                <p>Description</p>
+                    <h2>Tillegsinfo show/hide</h2>
+                    <p>Status</p>
+                    <p>Start airing</p>
+                    <p>End airing</p>
+                    <p>Starting season</p>
+                    <p>Broadcast time</p>
+                    <p>Producers</p>
+                    <p>Licensors</p>
+                    <p>Studios</p>
+                    <p>Sources</p>
+                    <p>Genres</p>
+                    <p>Duration</p>
+                    <p>Rating</p>
+                    <p>Scored by</p>
+                    <p>Members</p>
+                    <p>Favorites</p>
+                    <p>Description</p>
                 </div>
             </div>
         )
