@@ -2,10 +2,12 @@ import { setUncaughtExceptionCaptureCallback } from 'process'
 import { stringify } from 'querystring'
 import React, { useState } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { EpisodeState } from '../store/action/Type'
-import { Episode } from '../store/action/Type'
-import store from '../store/Store'
+import { EpisodeState } from '../../store/action/Type'
+import { Episode } from '../../store/action/Type'
+import store from '../../store/Store'
 import { DropdownButton, Dropdown } from 'react-bootstrap'
+import './AllEpisodes.css'
+import { Heading, Button } from '@chakra-ui/react'
 
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
@@ -34,7 +36,16 @@ export const SearchField = (props: any) => {
    */
 
   function renderEpisodes(episode: Episode) {
-    return search(episode)
+    return (
+      <div>
+        <Heading as='h1' size='xl' isTruncated>
+          {episode.title}
+        </Heading>
+        <p>Viewer rating: {episode.score}</p>
+        <p>Episode nr: {episode.episode}</p>
+        <Button>test</Button>
+      </div>
+    )
   }
 
   /**
@@ -49,36 +60,14 @@ export const SearchField = (props: any) => {
       searchBy == 'Title' &&
       text.length != 0
     ) {
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
+      return renderEpisodes(episode)
     } else if (
       episode.score >= parseInt(text) &&
       searchBy == 'Score' &&
       text.length != 0
     ) {
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
-    } else if (text.length == 0)
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
+      return renderEpisodes(episode)
+    } else if (text.length == 0) return renderEpisodes(episode)
   }
 
   /**
@@ -94,9 +83,9 @@ export const SearchField = (props: any) => {
     } else if (SortOn == 'Score') {
       sorted = sorted.sort((a, b) => b.score - a.score)
     } else {
-      return episodes.map(renderEpisodes)
+      return episodes.map(search)
     }
-    return sorted.map(renderEpisodes)
+    return sorted.map(search)
   }
 
   return (
@@ -126,7 +115,7 @@ export const SearchField = (props: any) => {
         <Dropdown.Divider />
       </DropdownButton>
       <h1>{store.getState}</h1>
-      <h2>{HelpSort(episodes)}</h2>
+      <ul>{HelpSort(episodes)}</ul>
     </div>
   )
   function updateInput(value: string) {
