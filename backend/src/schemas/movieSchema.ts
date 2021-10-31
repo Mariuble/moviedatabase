@@ -36,7 +36,7 @@ import Movie from '../models/movieModel'
 const MovieType = new GraphQLObjectType({
   name: 'movie',
   fields: () => ({
-    title: { type: GraphQLString}, //Looked like it was missing, remove otherwise
+    title: { type: GraphQLString }, //Looked like it was missing, remove otherwise
     id: { type: GraphQLString },
     type: { type: GraphQLString },
     episodes: { type: GraphQLInt },
@@ -60,24 +60,27 @@ const MovieType = new GraphQLObjectType({
   }),
 })
 
-
 // Endpoint for queries
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     //Query tag
     movie: {
-      type: new GraphQLList(MovieType),
+      type: MovieType,
       args: { id: { type: GraphQLString } },
       async resolve(parent, args) {
         // Get data from db
+
         const movies = await Movie.find({})
-        return movies
+        for (let i = 0; i < movies.length; i++) {
+          if (movies[i].id == args.id) {
+            return movies[i]
+          }
+        }
       },
     },
   },
 })
-
 
 // Mutation query under here...
 
