@@ -12,10 +12,16 @@ export const SearchField = (props: any) => {
   const episodes = useSelector((state: EpisodeState) => state.episodes)
   const options = ['score', 'title']
   const [text, setText] = useState('')
-  const [filterOn, setFilter] = useState('Title')
-  const handleSelect = (e: any) => {
+  const [searchBy, setSearch] = useState('Title')
+  const [SortOn, setSort] = useState('Title')
+  const handleSearch = (e: any) => {
     console.log(e)
-    setFilter(e)
+    setSearch(e)
+  }
+
+  const handleFilter = (e: any) => {
+    console.log(e)
+    setSort(e)
   }
 
   /**
@@ -28,9 +34,19 @@ export const SearchField = (props: any) => {
    */
 
   function renderEpisodes(episode: Episode) {
+    return search(episode)
+  }
+
+  /**
+   * Hjelper til med å søke etter en episode for så å returnere episoden(e) man søker etter
+   *
+   * @param episode Alle episodene
+   * @returns Episodene som matcher søkeordet
+   */
+  function search(episode: Episode) {
     if (
       episode.title.includes(text) &&
-      filterOn == 'Title' &&
+      searchBy == 'Title' &&
       text.length != 0
     ) {
       return (
@@ -43,7 +59,7 @@ export const SearchField = (props: any) => {
       )
     } else if (
       episode.score >= parseInt(text) &&
-      filterOn == 'Score' &&
+      searchBy == 'Score' &&
       text.length != 0
     ) {
       return (
@@ -65,6 +81,24 @@ export const SearchField = (props: any) => {
       )
   }
 
+  /**
+   * Hjelper til med å sortere listen over episoder basert på hva man ønsker å sortere etter.
+   * Lager en kopi av episodene og sorterer dem enten på tittel eller score
+   * @param episodes Episoder man ønsker å sortere
+   * @returns sortert eller usortert liste over episoder
+   */
+  function HelpSort(episodes: Episode[]) {
+    let sorted = [...episodes]
+    if (SortOn == 'Title') {
+      sorted = sorted.sort((a, b) => a.title.localeCompare(b.title))
+    } else if (SortOn == 'Score') {
+      sorted = sorted.sort((a, b) => b.score - a.score)
+    } else {
+      return episodes.map(renderEpisodes)
+    }
+    return sorted.map(renderEpisodes)
+  }
+
   return (
     <div>
       <input
@@ -73,16 +107,26 @@ export const SearchField = (props: any) => {
         onChange={(e) => setText(e.target.value)}
       />
       <DropdownButton
-        title='Sort by'
+        title='Search for'
         id='dropdown-menu'
-        onSelect={handleSelect}
+        onSelect={handleSearch}
       >
         <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
         <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
         <Dropdown.Divider />
       </DropdownButton>
+      <DropdownButton
+        title='Sort by'
+        id='dropdown-menu2'
+        onSelect={handleFilter}
+      >
+        <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
+        <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
+        <Dropdown.Item eventKey='None'>None</Dropdown.Item>
+        <Dropdown.Divider />
+      </DropdownButton>
       <h1>{store.getState}</h1>
-      <h2>{episodes.map(renderEpisodes)}</h2>
+      <h2>{HelpSort(episodes)}</h2>
     </div>
   )
   function updateInput(value: string) {
