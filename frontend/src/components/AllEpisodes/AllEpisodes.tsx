@@ -2,13 +2,14 @@ import { setUncaughtExceptionCaptureCallback } from 'process'
 import { stringify } from 'querystring'
 import React, { useState } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { EpisodeState } from '../store/action/Type'
-import { Episode } from '../store/action/Type'
-import store from '../store/Store'
+import { EpisodeState } from '../../store/action/Type'
+import { Episode } from '../../store/action/Type'
+import store from '../../store/Store'
 import { DropdownButton, Dropdown } from 'react-bootstrap'
+import './AllEpisodes.css'
 
 //PASS PÅ ANY
-export const SearchField = (props: any) => {
+export const AllEpisodes = (props: any) => {
   const episodes = useSelector((state: EpisodeState) => state.episodes)
   const options = ['score', 'title']
   const [text, setText] = useState('')
@@ -101,37 +102,37 @@ export const SearchField = (props: any) => {
 
   return (
     <div>
-      <input
-        type='text'
-        placeholder='Search'
-        onChange={(e) => setText(e.target.value)}
-      />
-      <DropdownButton
-        title='Search for'
-        id='dropdown-menu'
-        onSelect={handleSearch}
-      >
-        <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
-        <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
-        <Dropdown.Divider />
-      </DropdownButton>
-      <DropdownButton
-        title='Sort by'
-        id='dropdown-menu2'
-        onSelect={handleFilter}
-      >
-        <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
-        <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
-        <Dropdown.Item eventKey='None'>None</Dropdown.Item>
-        <Dropdown.Divider />
-      </DropdownButton>
+      <div className='SearchSort'>
+        <input
+          type='text'
+          id='searchField'
+          placeholder='Search'
+          onChange={(e) => setText(e.target.value)}
+        />
+        <DropdownButton
+          title='Search for'
+          id='dropdown-menu'
+          onSelect={handleSearch}
+        >
+          <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
+          <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
+          <Dropdown.Divider />
+        </DropdownButton>
+        <DropdownButton
+          title='Sort by'
+          id='dropdown-menu2'
+          onSelect={handleFilter}
+        >
+          <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
+          <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
+          <Dropdown.Item eventKey='None'>None</Dropdown.Item>
+          <Dropdown.Divider />
+        </DropdownButton>
+      </div>
       <h1>{store.getState}</h1>
       <h2>{HelpSort(episodes)}</h2>
     </div>
   )
-  function updateInput(value: string) {
-    setText(value)
-  }
 }
 
-export default SearchField
+export default AllEpisodes
