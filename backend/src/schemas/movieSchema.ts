@@ -1,4 +1,3 @@
-import { gql } from 'apollo-server-express'
 import {
   GraphQLInt,
   GraphQLList,
@@ -36,26 +35,27 @@ import Movie from '../models/movieModel'
 const MovieType = new GraphQLObjectType({
   name: 'movie',
   fields: () => ({
-    id: { type: GraphQLInt },
-    type: { type: GraphQLString },
-    episodes: { type: GraphQLInt },
-    status: { type: GraphQLString },
-    start_airing: { type: GraphQLString },
-    end_airing: { type: GraphQLString },
-    starting_season: { type: GraphQLString },
-    broadcast_time: { type: GraphQLString },
-    producers: { type: GraphQLString },
-    licensors: { type: GraphQLString },
-    studios: { type: GraphQLString },
-    sources: { type: GraphQLString },
-    genres: { type: GraphQLList(GraphQLString) },
-    duration: { type: GraphQLString },
-    rating: { type: GraphQLString },
-    score: { type: GraphQLInt },
-    scored_by: { type: GraphQLInt },
-    members: { type: GraphQLInt },
-    favorites: { type: GraphQLInt },
-    description: { type: GraphQLString },
+    Id: { type: GraphQLString },
+    Title: { type: GraphQLString },
+    Type: { type: GraphQLString },
+    Episodes: { type: GraphQLInt },
+    Status: { type: GraphQLString },
+    Start_airing: { type: GraphQLString },
+    End_airing: { type: GraphQLString },
+    Starting_season: { type: GraphQLString },
+    Broadcast_time: { type: GraphQLString },
+    Producers: { type: GraphQLString },
+    Licensors: { type: GraphQLString },
+    Studios: { type: GraphQLString },
+    Sources: { type: GraphQLString },
+    Genres: { type: GraphQLList(GraphQLString) },
+    Duration: { type: GraphQLString },
+    Rating: { type: GraphQLString },
+    Score: { type: GraphQLInt },
+    Scored_by: { type: GraphQLInt },
+    Members: { type: GraphQLInt },
+    Favorites: { type: GraphQLInt },
+    Description: { type: GraphQLString },
   }),
 })
 
@@ -63,14 +63,14 @@ const MovieType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
-    //Query tag
+    //Query tags
     movie: {
       type: new GraphQLList(MovieType),
-      args: { id: { type: GraphQLInt } },
+      args: { Id: { type: GraphQLString } },
       async resolve(parent, args) {
         // Get data from db
         const movies = await Movie.find({})
-        return movies
+        return [...movies]
       },
     },
   },

@@ -12,7 +12,7 @@ const startServer = async () => {
   const init = async () => {
     await connectDB()
     console.log(
-      `Server running in ${process.env.NODE_ENV} mode on localhost:${PORT}`
+      `Server running in ${process.env.NODE_ENV} mode on http://localhost:${PORT}`
     )
   }
 
