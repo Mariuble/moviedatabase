@@ -1,4 +1,5 @@
 import {
+  GraphQLFloat,
   GraphQLInt,
   GraphQLList,
   GraphQLObjectType,
@@ -35,7 +36,7 @@ import Movie from '../models/movieModel'
 const MovieType = new GraphQLObjectType({
   name: 'movie',
   fields: () => ({
-    Id: { type: GraphQLString },
+    _id: { type: GraphQLString },
     Title: { type: GraphQLString },
     Type: { type: GraphQLString },
     Episodes: { type: GraphQLInt },
@@ -48,10 +49,10 @@ const MovieType = new GraphQLObjectType({
     Licensors: { type: GraphQLString },
     Studios: { type: GraphQLString },
     Sources: { type: GraphQLString },
-    Genres: { type: GraphQLList(GraphQLString) },
+    Genres: { type: GraphQLString },
     Duration: { type: GraphQLString },
     Rating: { type: GraphQLString },
-    Score: { type: GraphQLInt },
+    Score: { type: GraphQLFloat },
     Scored_by: { type: GraphQLInt },
     Members: { type: GraphQLInt },
     Favorites: { type: GraphQLInt },
@@ -66,12 +67,54 @@ const RootQuery = new GraphQLObjectType({
     //Query tags
     movie: {
       type: new GraphQLList(MovieType),
-      args: { Id: { type: GraphQLString } },
+      args: { first: { type: GraphQLInt }, offset: { type: GraphQLInt } },
       async resolve(parent, args) {
         // Get data from db
 
         const movies = await Movie.find({})
-        return [...movies]
+        return [...movies].slice(args.offset, args.offset + args.first)
+      },
+    },
+    movieById: {
+      type: new GraphQLList(MovieType),
+      args: {
+        id: { type: GraphQLString },
+        first: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+      },
+      async resolve(parent, args) {
+        const movies = await Movie.find({})
+        let mov = []
+        for (let i = 0; i < movies.length; i++) {
+          if (movies[i]._id == args.id) {
+            console.log(movies[i]._id)
+            mov.push(movies[i])
+            console.log(mov.length)
+          }
+        }
+        return mov.slice(args.offset, args.offset + args.first)
+      },
+    },
+    movieByTitle: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        first: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+      },
+      async resolve(parent, args) {
+        const movies = await Movie.find({})
+        let mov = []
+        for (let i = 0; i < movies.length; i++) {
+          if (
+            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
+          ) {
+            console.log(movies[i].Title)
+            mov.push(movies[i])
+            console.log(mov.length)
+          }
+        }
+        return mov.slice(args.offset, args.offset + args.first)
       },
     },
   },
