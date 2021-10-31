@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
 dotenv.config({ path: '../.env' })
-
 const connectDB = async () => {
   try {
     if (!process.env.MONGO_URI) throw new Error('URI not found')
