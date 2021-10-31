@@ -1,14 +1,14 @@
-import React from 'react';
-import { Episode } from './components/Episode/Episode';
-import SearchField from "./components/SearchField"
-
+import React from 'react'
+import { Episode } from './components/Episode/Episode'
+import AllEpisodes from './components/AllEpisodes/AllEpisodes'
+import { ChakraProvider } from '@chakra-ui/react'
 
 function App() {
   return (
-    <div className="App">
-      <SearchField></SearchField>
-    </div>
-  );
+    <ChakraProvider>
+      <AllEpisodes></AllEpisodes>
+    </ChakraProvider>
+  )
 }
 
-export default App;
+export default App
