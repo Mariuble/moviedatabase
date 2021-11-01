@@ -1,6 +1,5 @@
 import React from 'react'
 import AllEpisodes from './components/AllEpisodes/AllEpisodes'
-import { ChakraProvider } from '@chakra-ui/react'
 import {
   ApolloClient,
   ApolloProvider,
@@ -10,7 +9,11 @@ import {
 } from '@apollo/client'
 import { Episode } from './store/action/Type'
 import store from './store/Store'
-import Animes from './graphql/Animes'
+// import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import Navbar from './components/Navbar'
+import Movies from './components/Episode/Movies'
+import { Container } from 'react-bootstrap'
 
 const SEARCH_ANIMES = gql`
   query RootQueryType {
@@ -31,11 +34,13 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        <div>
-          <h1>Animes</h1>
-          <Animes />
-          <AllEpisodes></AllEpisodes>
-        </div>
+        <AllEpisodes></AllEpisodes>
+        <Navbar />
+        {/* <Container>
+          <Route path='/movies' component={Movies} />
+          {/* <Route path='/register' component={} />
+        </Container> */}
+        <Movies />
       </ChakraProvider>
     </ApolloProvider>
   )
