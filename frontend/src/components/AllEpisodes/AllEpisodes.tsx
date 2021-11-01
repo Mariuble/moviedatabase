@@ -5,9 +5,19 @@ import { connect, useSelector } from 'react-redux'
 import { EpisodeState } from '../../store/action/Type'
 import { Episode } from '../../store/action/Type'
 import store from '../../store/Store'
-import { DropdownButton, Dropdown } from 'react-bootstrap'
+import { DropdownButton, Dropdown, Col, Row } from 'react-bootstrap'
 import './AllEpisodes.css'
-import { Button, Heading } from '@chakra-ui/react'
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Heading,
+  Tag,
+} from '@chakra-ui/react'
 
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
@@ -39,12 +49,23 @@ export const SearchField = (props: any) => {
   function renderEpisodes(episode: Episode) {
     return (
       <div>
-        <Heading as='h1' size='xl' isTruncated>
-          {episode.title}
-        </Heading>
-        <p>Viewer rating: {episode.score}</p>
-        <p>Episode nr: {episode.episode}</p>
-        <Button>test</Button>
+        <Accordion allowToggle className='m-1' boxShadow='base' rounded='xl'>
+          <AccordionItem className='p-3 m-2'>
+            <AccordionButton className=''>
+              <Col>
+                <Row>
+                  <Heading as='h5' size='md'>
+                    {episode.title}
+                  </Heading>
+                </Row>
+                <Tag className='m-1'>{episode.score}</Tag>
+                <Tag className='m-1'>{episode.episode}</Tag>
+              </Col>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel>DESC</AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </div>
     )
   }
@@ -115,8 +136,10 @@ export const SearchField = (props: any) => {
         <Dropdown.Item eventKey='None'>None</Dropdown.Item>
         <Dropdown.Divider />
       </DropdownButton>
-      <h1>{store.getState}</h1>
-      <ul>{HelpSort(episodes)}</ul>
+      <Box flex='1' textAlign='center' className='p-1'>
+        <Heading className='m-3'>Animes</Heading>
+        <ul>{HelpSort(episodes)}</ul>
+      </Box>
     </div>
   )
   function updateInput(value: string) {
