@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { useQuery } from '@apollo/client'
 import { Col, Row } from 'react-bootstrap'
 import {
@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 import './Episode.css'
 import { SEARCH_MOVIES } from '../../graphql/MovieByTitle'
-import { Episode } from '../../store/action/Type'
+import { Episode, EpisodeState } from '../../store/action/Type'
 import store from '../../store/Store'
 
 const Movies = () => {
@@ -38,33 +38,13 @@ const Movies = () => {
       title: element.Title,
       score: element.Score,
       episode: element.Episodes,
+      type: element.Type,
+      desc: element.Description,
     }
     store.dispatch(addEpisode(newEpisode))
   }
 
-  return (
-    <Box flex='1' textAlign='center' className='p-1'>
-      <Heading className='m-3'>Animes</Heading>
-      {data.movieByTitle.map((movie: any) => (
-        <Accordion allowToggle className='m-1' boxShadow='base' rounded='xl'>
-          <AccordionItem className='p-3 m-2'>
-            <AccordionButton className=''>
-              <Col>
-                <Row>
-                  <Heading as='h5' size='md'>
-                    {movie.Title}
-                  </Heading>
-                </Row>
-                <Tag className='m-1'>{movie.Type}</Tag>
-              </Col>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel>{movie.Description}</AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-      ))}
-    </Box>
-  )
+  return <></>
 }
 
 export default Movies

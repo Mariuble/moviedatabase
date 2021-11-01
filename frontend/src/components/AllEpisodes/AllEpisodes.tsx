@@ -58,12 +58,13 @@ export const SearchField = (props: any) => {
                     {episode.title}
                   </Heading>
                 </Row>
-                <Tag className='m-1'>{episode.score}</Tag>
-                <Tag className='m-1'>{episode.episode}</Tag>
+                <Tag className='m-1'>Score: {episode.score}</Tag>
+                <Tag className='m-1'>Type: {episode.type}</Tag>
+                <Tag className='m-1'>Episodes: {episode.episode}</Tag>
               </Col>
               <AccordionIcon />
             </AccordionButton>
-            <AccordionPanel>DESC</AccordionPanel>
+            <AccordionPanel>{episode.desc}</AccordionPanel>
           </AccordionItem>
         </Accordion>
       </div>
@@ -84,7 +85,7 @@ export const SearchField = (props: any) => {
     ) {
       return renderEpisodes(episode)
     } else if (
-      episode.score >= parseInt(text) &&
+      episode.score >= parseFloat(text) &&
       searchBy == 'Score' &&
       text.length != 0
     ) {

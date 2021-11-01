@@ -34,8 +34,8 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        <AllEpisodes></AllEpisodes>
         <Navbar />
+        <AllEpisodes></AllEpisodes>
         {/* <Container>
           <Route path='/movies' component={Movies} />
           {/* <Route path='/register' component={} />
