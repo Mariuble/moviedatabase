@@ -43,12 +43,12 @@ const movieSchema = new mongoose.Schema({
     default: '',
   },
   Producers: {
-    type: [String],
+    type: String,
     required: true,
     default: '',
   },
   Licensors: {
-    type: [String],
+    type: String,
     required: true,
     default: '',
   },
@@ -63,7 +63,7 @@ const movieSchema = new mongoose.Schema({
     default: '',
   },
   Genres: {
-    type: [String],
+    type: String,
     required: true,
     default: '',
   },

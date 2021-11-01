@@ -7,7 +7,7 @@ import { Episode } from '../../store/action/Type'
 import store from '../../store/Store'
 import { DropdownButton, Dropdown } from 'react-bootstrap'
 import './AllEpisodes.css'
-import { Heading, Button } from '@chakra-ui/react'
+import { Button, Heading } from '@chakra-ui/react'
 
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
@@ -16,6 +16,7 @@ export const SearchField = (props: any) => {
   const [text, setText] = useState('')
   const [searchBy, setSearch] = useState('Title')
   const [SortOn, setSort] = useState('Title')
+
   const handleSearch = (e: any) => {
     console.log(e)
     setSearch(e)
