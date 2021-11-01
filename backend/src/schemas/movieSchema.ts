@@ -117,6 +117,88 @@ const RootQuery = new GraphQLObjectType({
         return mov.slice(args.offset, args.offset + args.first)
       },
     },
+    allMoviesByTitle: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        const movies = await Movie.find({})
+        let mov = []
+        for (let i = 0; i < movies.length; i++) {
+          if (
+            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
+          ) {
+            console.log(movies[i].Title)
+            mov.push(movies[i])
+            console.log(mov.length)
+          }
+        }
+        return mov
+      },
+    },
+    countMoviesByTitle: {
+      type: GraphQLInt,
+      args: {
+        title: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        const movies = await Movie.find({})
+        let mov = []
+        for (let i = 0; i < movies.length; i++) {
+          if (
+            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
+          ) {
+            console.log(movies[i].Title)
+            mov.push(movies[i])
+            console.log(mov.length)
+          }
+        }
+        return mov.length
+      },
+    },
+    sortMoviesByTitle: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        first: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        sorting: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        const movies = await Movie.find()
+        let mov = []
+        for (let i = 0; i < movies.length; i++) {
+          if (
+            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
+          ) {
+            console.log(movies[i].Title)
+            mov.push(movies[i])
+            console.log(mov.length)
+          }
+        }
+        if (args.sorting === 'Title') {
+          mov = mov.sort((a, b) => a.Title.localeCompare(b.Title))
+        } else if (args.sorting === 'Score') {
+          mov = mov.sort((a, b) => b.Score - a.Score)
+        }
+        return mov.slice(args.offset, args.offset + args.first)
+      },
+    },
+    testQuery: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        first: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        sorting: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        const movies = await Movie.find()
+        let mov = []
+        return movies
+      },
+    },
   },
 })
 
