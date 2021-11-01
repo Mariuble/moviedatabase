@@ -10,7 +10,7 @@ import './AllEpisodes.css'
 import { gql, useQuery } from '@apollo/client'
 
 //PASS PÅ ANY
-export const AllEpisodes = (props: any) => {
+export const SearchField = (props: any) => {
   const episodes = useSelector((state: EpisodeState) => state.episodes)
   const options = ['score', 'title']
   const [text, setText] = useState('')
@@ -37,7 +37,16 @@ export const AllEpisodes = (props: any) => {
    */
 
   function renderEpisodes(episode: Episode) {
-    return search(episode)
+    return (
+      <div>
+        <Heading as='h1' size='xl' isTruncated>
+          {episode.title}
+        </Heading>
+        <p>Viewer rating: {episode.score}</p>
+        <p>Episode nr: {episode.episode}</p>
+        <Button>test</Button>
+      </div>
+    )
   }
 
   /**
@@ -52,36 +61,14 @@ export const AllEpisodes = (props: any) => {
       searchBy == 'Title' &&
       text.length != 0
     ) {
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
+      return renderEpisodes(episode)
     } else if (
       episode.score >= parseInt(text) &&
       searchBy == 'Score' &&
       text.length != 0
     ) {
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
-    } else if (text.length == 0)
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
+      return renderEpisodes(episode)
+    } else if (text.length == 0) return renderEpisodes(episode)
   }
 
   /**
@@ -97,44 +84,44 @@ export const AllEpisodes = (props: any) => {
     } else if (SortOn == 'Score') {
       sorted = sorted.sort((a, b) => b.score - a.score)
     } else {
-      return episodes.map(renderEpisodes)
+      return episodes.map(search)
     }
-    return sorted.map(renderEpisodes)
+    return sorted.map(search)
   }
 
   return (
     <div>
-      <div className='SearchSort'>
-        <input
-          type='text'
-          id='searchField'
-          placeholder='Search'
-          onChange={(e) => setText(e.target.value)}
-        />
-        <DropdownButton
-          title='Search for'
-          id='dropdown-menu'
-          onSelect={handleSearch}
-        >
-          <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
-          <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
-          <Dropdown.Divider />
-        </DropdownButton>
-        <DropdownButton
-          title='Sort by'
-          id='dropdown-menu2'
-          onSelect={handleFilter}
-        >
-          <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
-          <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
-          <Dropdown.Item eventKey='None'>None</Dropdown.Item>
-          <Dropdown.Divider />
-        </DropdownButton>
-      </div>
+      <input
+        type='text'
+        placeholder='Search'
+        onChange={(e) => setText(e.target.value)}
+      />
+      <DropdownButton
+        title='Search for'
+        id='dropdown-menu'
+        onSelect={handleSearch}
+      >
+        <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
+        <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
+        <Dropdown.Divider />
+      </DropdownButton>
+      <DropdownButton
+        title='Sort by'
+        id='dropdown-menu2'
+        onSelect={handleFilter}
+      >
+        <Dropdown.Item eventKey='Score'>Score</Dropdown.Item>
+        <Dropdown.Item eventKey='Title'>Title</Dropdown.Item>
+        <Dropdown.Item eventKey='None'>None</Dropdown.Item>
+        <Dropdown.Divider />
+      </DropdownButton>
       <h1>{store.getState}</h1>
-      <h2>{HelpSort(episodes)}</h2>
+      <ul>{HelpSort(episodes)}</ul>
     </div>
   )
+  function updateInput(value: string) {
+    setText(value)
+  }
 }
 
-export default AllEpisodes
+export default SearchField
