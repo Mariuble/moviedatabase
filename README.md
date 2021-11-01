@@ -7,7 +7,7 @@
 Appen henter inn en rekke episoder og presenterer tittel, score og episodenummeret. Det er mulig å sortere episodene etter score og tittel og man kan velge å søke på tittel eller score høyere eller lik søkeresultatet. Dersom man ønsker å å få mer informasjon om episoden kan man trykke nederst og tilleggsinformasjonen vil komme opp. 
 
 ## Redux
-Redux brukes til å lagre alle episodene slik at man slipper å sende en forespørsel til serveren for å hente alle episodene på nytt. Ved å lagre den i en store så kan andre komponenter hente ut episodene uten å sende en forespørsel. Vår store er veldig enkel. Vi kan kun legge til episoder. Dette er fordi vi ikke ser noe behov for å kunne fjerne episodene etter vi har lagret dem. 
+Redux var tenkt til å brukes for å lagre Episodene/Filmene i store slik at man ikke trengte å laste inn alle hver gang man ønsket å sortere eller søke i databasen. Apollo cacher fra før, som gjorde at vi ikke hadde noe behov for å bruke redux til dette. Vi valgte fortsat å la redux store være med i prosjektet for å vise forståelsen av redux og lagring til store.
 
 ## Nyttige kilder
 
