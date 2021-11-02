@@ -25,10 +25,8 @@ function App() {
     <ApolloProvider client={client}>
       <ChakraProvider>
         <Navbar />
-        <Heading textAlign='center'>Animes go here</Heading>
-        <div>
-          <Animes />
-        </div>
+        <MovieForm />
+        <Animes />
       </ChakraProvider>
     </ApolloProvider>
   )

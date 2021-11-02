@@ -1,18 +1,21 @@
 import React, { useState } from 'react'
 import { Box, Heading, ThemeProvider, theme, FormControl, FormLabel, Input, FormErrorMessage, Button, RadioGroup, Stack, Radio, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Textarea } from '@chakra-ui/react'
+import { useMutation } from '@apollo/client'
+import { ADD_MOVIE } from '../graphql/GraphQLQueries'
 
 // Form for adding Movie
 const MovieForm = () => {
 
     const [title, setTitle] = useState('')
     const [type, setType] = useState('Movie')
-    const [episodes, setEpisodes] = useState(0)
+    const [score, setScore] = useState(5.00)
+    const [episodes, setEpisodes] = useState(15)
     const [description, setDescription] = useState('This is a default description')
 
-    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        console.log(title, '|', type, '|', episodes, '|', description)
-    }
+    const [addMovie, { data, loading, error }] = useMutation(ADD_MOVIE)
+
+    // if (loading) return 'Submitting...'
+    // if (error) return `Submission error! ${error.message}`
 
     return (
         <ThemeProvider theme={theme}>
@@ -22,7 +25,12 @@ const MovieForm = () => {
                 </Heading>
 
                 <form
-                    onSubmit={onSubmit}
+                    onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                        event.preventDefault()
+                        console.log(title, '|', type, '|', episodes, '|', description)
+                        addMovie({ variables: { title: title, type: type, episodes: episodes, score: score, description: description } })
+                        // Refetch queries to update cache: data from mutation
+                    }}
                 >
                     <FormControl isRequired mt={5}>
                         <FormLabel htmlFor='title'>Title</FormLabel>
@@ -49,10 +57,26 @@ const MovieForm = () => {
                     <FormControl isRequired mt={5}>
                         <FormLabel htmlFor='episodes'>Episodes</FormLabel>
                         <NumberInput
-                            defaultValue={15}
+                            defaultValue={episodes}
                             allowMouseWheel
                         >
                             <NumberInputField onChange={event => setEpisodes} />
+                            <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                            </NumberInputStepper>
+                        </NumberInput>
+                    </FormControl>
+
+                    <FormControl isRequired mt={5}>
+                        <FormLabel htmlFor='score'>Score</FormLabel>
+                        <NumberInput
+                            defaultValue={score}
+                            allowMouseWheel
+                            precision={2}
+                            step={0.1}
+                        >
+                            <NumberInputField onChange={event => setScore} />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                                 <NumberDecrementStepper />
@@ -70,7 +94,7 @@ const MovieForm = () => {
                     </FormControl>
 
 
-                    <Button mt={10} colorScheme="teal" type="submit" width="full">
+                    <Button mt={10} colorScheme="teal" type="submit" width="full" isLoading={loading}>
                         Submit
                     </Button>
                 </form>

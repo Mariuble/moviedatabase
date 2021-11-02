@@ -6,6 +6,7 @@ import {
   GraphQLSchema,
   GraphQLString,
 } from 'graphql'
+import { title } from 'process'
 import Movie from '../models/movieModel'
 
 // Object type, gql vs. GraphQLObjectType??
@@ -128,8 +129,34 @@ const RootQuery = new GraphQLObjectType({
 
 // Mutation query under here...
 
+const RootMutation = new GraphQLObjectType({
+  name: 'RootMutationType',
+  fields: {
+    addMovie: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        type: { type: GraphQLString },
+        episodes: { type: GraphQLInt },
+        score: { type: GraphQLFloat },
+        description: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        await Movie.insertMany({
+          Title: args.title,
+          Type: args.type,
+          Episodes: args.episodes,
+          Score: args.score,
+          Description: args.description,
+        })
+      },
+    },
+  },
+})
+
 const schema = new GraphQLSchema({
   query: RootQuery,
+  mutation: RootMutation,
 })
 
 export default schema
