@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Heading, ThemeProvider, theme, FormControl, FormLabel, Input, FormErrorMessage, Button, RadioGroup, Stack, Radio, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Textarea } from '@chakra-ui/react'
+import { useMutation } from '@apollo/client'
+import { ADD_MOVIE } from '../graphql/GraphQLQueries'
 
 // Form for adding Movie
 const MovieForm = () => {
@@ -9,9 +11,15 @@ const MovieForm = () => {
     const [episodes, setEpisodes] = useState(0)
     const [description, setDescription] = useState('This is a default description')
 
+    const [addMovie, { data, loading, error }] = useMutation(ADD_MOVIE);
+
+    if (loading) return 'Submitting...'
+    if (error) return `Submission error! ${error.message}`
+
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(title, '|', type, '|', episodes, '|', description)
+        addMovie({ variables: { title: title, type: type, episodes: episodes, description: description } })
+        // Refetch queries to update cache: data from mutation
     }
 
     return (

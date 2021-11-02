@@ -36,3 +36,9 @@ export const GET_ANIME_COUNT = gql`
     countMoviesByTitle(title: $title)
   }
 `
+
+export const ADD_MOVIE = gql`
+  mutation RootMutationType($title: String!, $type: String!, $episodes: Int!, $description: String!) {
+    addMovie($title: String!, $type: String!, $episodes: Int!, $description: String!title: $title)
+  }
+`
