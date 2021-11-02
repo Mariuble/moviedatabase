@@ -16,6 +16,9 @@ Skriv deretter `npm i` for å installere de avhengige pakkene.
 
 Kjør frontend applikasjonen ved å skrive `npm start`
 
+## Generelt om applikasjonen
+Dette prosjektet er en løsning for listevisning av omtrent 1500 av de mest populære filmene/tv-seriene av den japanske sorten "Anime". Her kan man søke blant alle disse og få resultatene fremvist med tittel, type anime, antall episoder, score og beskrivelse. I tillegg kan man sortere dem basert på tittel eller poengsum gitt av seerne. Man har også mulighet for å legge inn sin egen anime ved hjelp av undersiden for registrering av anime i navbaren. Utover dette kan man bla gjennom titlene ved å gå videre til neste side, gitt at der er nok resultater, samt se de totale søketreffene, og hvilke resultater du foreløpig ser på, på bunnen av siden.
+
 ## Pagination
 Ved skalering av datasett, ønsker vi å kunne hente ut litt og litt data fra databasen. Dette gjør vi ved bruk av "offset based pagination" i backend, med et fast antall resultater per side, som er satt av en grense, f.eks. 10 elementer av gangen. Gitt at der finnes nok elementer, og man deretter trykker "Next page", lastes det inn 10 nye elementer med et offset på 10, altså element 11-20 som matcher søkekriteriene osv. Når brukeren trykker seg inn på en ny side, vil det skje en spørring som henter nye resultater basert på parametrene som er relevante (søkeord og sorteringsmåte). Spørringene blir sendt til databasen ved hjelp av GraphQL som er koblet opp mot MongoDB.
 
@@ -38,5 +41,15 @@ Vi har valgt å utføre e2e(end to end) testing ved hjelp av **Cypress**. Cypres
 For å presentere dataen på nettsiden har vi brukt UI biblioteket **Chakra UI**. Ved å bruke et eksternt UI bibliotek går implementasjon av responsivitet kjappere og bidrar til et oversiktlig og ryddig grensesnitt. Chakra UI ga også mulighet for å implementere eksisterende komponenter for applikasjonens funksjonalitet. Vi har så å si ikke brukt noe css men alt av design er lagd med **Chakra**. Chakra tilbyr persistent tema i form av lyst- og mørkt modus, dette er gjort implisitt gjennom `localstorage`.
 
 ## Accessibility
-Prinsipper, kriterier, krav
 Vi har gjort noen små tiltak for å gjøre at siden kan brukes av folk med nedsatt funksjonsevne. Vi har testet ved å bruke en _screen reader_ utvidelse for Google Chrome. Vi har brukt arialabels for å sette på labler for å gjøre det enkelt for de med nedsatt syn. Når de hovrer elementer som er viktige vil en enkel label fortelle dem hva de ulike knappene gjør, og hva de ulike delene er. **Chakra** har en innebygd funksjon som for eksempel at sorteringsfilteret sier ifra hvis den er åpen eller lukket. Alle seriene og filmene vil bli lest opp og dersom man åpner den opp kan man blå seg ned til beskrivelsen og den vil bli lest opp for brukeren. 
+
+## Nyttige kilder
+
+### Redux 
+- https://www.youtube.com/watch?v=poQXNp9ItL4&ab_channel=ProgrammingwithMosh
+
+### MongoDB
+- https://medium.com/swlh/how-to-create-your-first-mern-mongodb-express-js-react-js-and-node-js-stack-7e8b20463e66
+
+### Pagination med GraphQL
+- https://graphql.org/learn/pagination/
