@@ -30,13 +30,13 @@ import {
   TEST_QUERY,
 } from './GraphQLQueries'
 import { SearchIcon } from '@chakra-ui/icons'
-import Movie from '../components/Episode/Movie'
 
 const Animes = () => {
   const [baseTitle, setBaseTitle] = useState('')
   const [baseFirst, setBaseFirst] = useState(10)
   const [baseOffset, setBaseOffset] = useState(0)
   const [searchWord, setSearchWord] = useState('Search any title')
+  const [searchInput, setsearchInput] = useState('Search any title')
   const [pageNo, setPageNo] = useState(1)
   const [sortOn, setSort] = useState('Title')
   const { loading, error, data, refetch } = useQuery(ANIMES_SORTED_TITLE, {
@@ -64,14 +64,21 @@ const Animes = () => {
     variables: { title: baseTitle },
   })
 
-  const handleSearch = (e: any) => {
+  const handleSearch = () => {
+    setBaseTitle(searchInput)
+    setBaseOffset(0)
+    setSearchWord(searchInput)
+    setPageNo(1)
+  }
+
+  const handleUpdate = (e: any) => {
     if (e.key === 'Enter') {
-      setBaseTitle(e.target.value)
-      setBaseOffset(0)
-      setSearchWord(e.target.value)
-      setPageNo(1)
+      handleSearch()
+    } else {
+      setsearchInput(e.target.value)
     }
   }
+
   const handlePrevPage = () => {
     if (baseOffset >= baseFirst) {
       setBaseOffset(baseOffset - 10)
@@ -169,9 +176,13 @@ const Animes = () => {
           width='40%'
           placeholder={searchWord}
           variant='outline'
-          onKeyDown={handleSearch}
+          onKeyDown={(e) => handleUpdate(e)}
         />
-        <IconButton aria-label='Search database' icon={<SearchIcon />} />
+        <IconButton
+          onClick={handleSearch}
+          aria-label='Search database'
+          icon={<SearchIcon />}
+        />
       </InputGroup>
       <DropdownButton
         title={sortOn}
@@ -183,7 +194,25 @@ const Animes = () => {
         <Dropdown.Item eventKey='None'>None</Dropdown.Item>
         <Dropdown.Divider />
       </DropdownButton>
-      <ul>{data.sortMoviesByTitle.map((movie: any) => Movie(movie))}</ul>
+      <Table variant='striped' colorScheme='blue'>
+        <PageNo />
+        <Thead>
+          <Tr>
+            <Th>Title</Th>
+            <Th>Type</Th>
+            <Th>Score</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {data.sortMoviesByTitle.map((movie: any) => (
+            <Tr>
+              <Td>{movie.Title}</Td>
+              <Td>{movie.Type}</Td>
+              <Td>{movie.Score}</Td>
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
       <Box textAlign='center'>
         <PrevBtn />
         <NextBtn />
