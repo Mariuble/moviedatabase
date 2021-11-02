@@ -9,12 +9,12 @@ const movieSchema = new mongoose.Schema({
   },
   Type: {
     type: String,
-    required: true,
+    required: false,
     default: '',
   },
   Episodes: {
     type: Number,
-    required: true,
+    required: false,
     default: 0,
   },
   Status: {
@@ -99,7 +99,7 @@ const movieSchema = new mongoose.Schema({
   },
   Description: {
     type: String,
-    required: true,
+    required: false,
     default: '',
   },
 })

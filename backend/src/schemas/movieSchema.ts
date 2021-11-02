@@ -6,6 +6,7 @@ import {
   GraphQLSchema,
   GraphQLString,
 } from 'graphql'
+import { title } from 'process'
 import Movie from '../models/movieModel'
 
 // Object type, gql vs. GraphQLObjectType??
@@ -137,6 +138,7 @@ const RootMutation = new GraphQLObjectType({
         title: { type: GraphQLString },
         type: { type: GraphQLString },
         episodes: { type: GraphQLInt },
+        score: { type: GraphQLFloat },
         description: { type: GraphQLString },
       },
       async resolve(parent, args) {
@@ -144,11 +146,11 @@ const RootMutation = new GraphQLObjectType({
           Title: args.title,
           Type: args.type,
           Episodes: args.episodes,
+          Score: args.score,
           Description: args.description,
         })
       },
     },
-    //Query tags
   },
 })
 
