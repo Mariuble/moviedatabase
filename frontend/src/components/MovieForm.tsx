@@ -111,9 +111,9 @@ const MovieForm = () => {
           <FormControl isRequired mt={5}>
             <FormLabel htmlFor='score'>Score</FormLabel>
             <NumberInput
-              onChange={(val) =>
-                console.log('val: ' + val + ' parsed: ' + parseFloat(val))
-              }
+              onChange={(val) => {
+                setScore(parseFloat(val))
+              }}
               defaultValue={score}
               allowMouseWheel
               precision={2}
