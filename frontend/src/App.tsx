@@ -10,10 +10,11 @@ import {
 import { Episode } from './store/action/Type'
 import store from './store/Store'
 // import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { ChakraProvider, ColorModeScript, CSSReset } from '@chakra-ui/react'
 import Navbar from './components/Navbar'
 import Movies from './components/Episode/Movies'
 import MovieForm from './components/MovieForm'
+import { ChakraProvider, Heading } from '@chakra-ui/react'
+import Animes from './graphql/Animes'
 
 function App() {
   const client = new ApolloClient({
@@ -24,9 +25,10 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        <Navbar />
-        <AllEpisodes></AllEpisodes>
-        <Movies />
+        <Heading textAlign='center'>Animes go here</Heading>
+        <div>
+          <Animes />
+        </div>
       </ChakraProvider>
     </ApolloProvider>
   )
