@@ -42,12 +42,14 @@ export const ADD_MOVIE = gql`
     $type: String
     $episodes: Int
     $description: String
+    $score: Float
   ) {
     addMovie(
       title: $title
       type: $type
       episodes: $episodes
       description: $description
+      score: $score
     ) {
       Title
     }
