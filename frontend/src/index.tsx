@@ -18,8 +18,26 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 const rootElement = document.getElementById('root')
 
+let filter: string = 'Title'
+
+interface Action {
+  type: string
+  payload: string
+}
+
+function filterReducer(state = filter, action: Action) {
+  filter = action.payload
+  return state
+}
+
+export function setFilter(payload: string) {
+  return { type: 'SET_FILTER', payload }
+}
+
+export const filterStore = createStore(filterReducer)
+
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={filterStore}>
     <App></App>
   </Provider>,
   rootElement

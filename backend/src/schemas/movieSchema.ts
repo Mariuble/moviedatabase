@@ -65,16 +65,6 @@ const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     //Query tags
-    movie: {
-      type: new GraphQLList(MovieType),
-      args: { first: { type: GraphQLInt }, offset: { type: GraphQLInt } },
-      async resolve(parent, args) {
-        // Get data from db
-
-        const movies = await Movie.find({})
-        return [...movies].slice(args.offset, args.offset + args.first)
-      },
-    },
     movieById: {
       type: new GraphQLList(MovieType),
       args: {
@@ -95,66 +85,24 @@ const RootQuery = new GraphQLObjectType({
         return mov.slice(args.offset, args.offset + args.first)
       },
     },
-    movieByTitle: {
-      type: new GraphQLList(MovieType),
-      args: {
-        title: { type: GraphQLString },
-        first: { type: GraphQLInt },
-        offset: { type: GraphQLInt },
-      },
-      async resolve(parent, args) {
-        const movies = await Movie.find({})
-        let mov = []
-        for (let i = 0; i < movies.length; i++) {
-          if (
-            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
-          ) {
-            console.log(movies[i].Title)
-            mov.push(movies[i])
-            console.log(mov.length)
-          }
-        }
-        return mov.slice(args.offset, args.offset + args.first)
-      },
-    },
-    allMoviesByTitle: {
-      type: new GraphQLList(MovieType),
-      args: {
-        title: { type: GraphQLString },
-      },
-      async resolve(parent, args) {
-        const movies = await Movie.find({})
-        let mov = []
-        for (let i = 0; i < movies.length; i++) {
-          if (
-            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
-          ) {
-            console.log(movies[i].Title)
-            mov.push(movies[i])
-            console.log(mov.length)
-          }
-        }
-        return mov
-      },
-    },
     countMoviesByTitle: {
       type: GraphQLInt,
       args: {
         title: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        const movies = await Movie.find({})
+        const movies = await Movie.count()
         let mov = []
-        for (let i = 0; i < movies.length; i++) {
-          if (
-            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
-          ) {
-            console.log(movies[i].Title)
-            mov.push(movies[i])
-            console.log(mov.length)
-          }
-        }
-        return mov.length
+        // for (let i = 0; i < movies.length; i++) {
+        //   if (
+        //     movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
+        //   ) {
+        //     console.log(movies[i].Title)
+        //     mov.push(movies[i])
+        //     console.log(mov.length)
+        //   }
+        // }
+        return movies
       },
     },
     sortMoviesByTitle: {
@@ -163,23 +111,25 @@ const RootQuery = new GraphQLObjectType({
         title: { type: GraphQLString },
         first: { type: GraphQLInt },
         offset: { type: GraphQLInt },
-        sorting: { type: GraphQLString },
+        sort: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        const movies = await Movie.find()
-        let mov = []
-        for (let i = 0; i < movies.length; i++) {
-          if (
-            movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
-          ) {
-            console.log(movies[i].Title)
-            mov.push(movies[i])
-            console.log(mov.length)
-          }
-        }
-        if (args.sorting === 'Title') {
+        const movies = await Movie.find({
+          Title: new RegExp(args.title, 'i'),
+        })
+        let mov = [...movies]
+        // for (let i = 0; i < movies.length; i++) {
+        //   if (
+        //     movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
+        //   ) {
+        //     console.log(movies[i].Title)
+        //     mov.push(movies[i])
+        //     console.log(mov.length)
+        //   }
+        // }
+        if (args.sort === 'Title') {
           mov = mov.sort((a, b) => a.Title.localeCompare(b.Title))
-        } else if (args.sorting === 'Score') {
+        } else if (args.sort === 'Score') {
           mov = mov.sort((a, b) => b.Score - a.Score)
         }
         return mov.slice(args.offset, args.offset + args.first)
@@ -194,7 +144,7 @@ const RootQuery = new GraphQLObjectType({
         sorting: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        const movies = await Movie.find()
+        const movies = await Movie.find({ Score: { $elemMatch: { $gte: 8 } } })
         let mov = []
         return movies
       },
