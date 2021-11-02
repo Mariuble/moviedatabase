@@ -65,43 +65,15 @@ const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     //Query tags
-    movieById: {
-      type: new GraphQLList(MovieType),
-      args: {
-        id: { type: GraphQLString },
-        first: { type: GraphQLInt },
-        offset: { type: GraphQLInt },
-      },
-      async resolve(parent, args) {
-        const movies = await Movie.find({})
-        let mov = []
-        for (let i = 0; i < movies.length; i++) {
-          if (movies[i]._id == args.id) {
-            console.log(movies[i]._id)
-            mov.push(movies[i])
-            console.log(mov.length)
-          }
-        }
-        return mov.slice(args.offset, args.offset + args.first)
-      },
-    },
     countMoviesByTitle: {
       type: GraphQLInt,
       args: {
         title: { type: GraphQLString },
       },
       async resolve(parent, args) {
-        const movies = await Movie.count()
-        let mov = []
-        // for (let i = 0; i < movies.length; i++) {
-        //   if (
-        //     movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
-        //   ) {
-        //     console.log(movies[i].Title)
-        //     mov.push(movies[i])
-        //     console.log(mov.length)
-        //   }
-        // }
+        const movies = await Movie.count({
+          Title: new RegExp(args.title, 'i'),
+        })
         return movies
       },
     },
@@ -114,25 +86,28 @@ const RootQuery = new GraphQLObjectType({
         sort: { type: GraphQLString },
       },
       async resolve(parent, args) {
+        //Finds all documents with a title containing the text from the search field, paginates based on the offset and limits results per query by "first"(limit), and then sorts the output based on the selected sorting value
+        if (args.sort === 'Title') {
+          const movies = await Movie.find({
+            Title: new RegExp(args.title, 'i'),
+          })
+            .skip(args.offset)
+            .limit(args.first)
+            .sort({ Title: 1 })
+          return movies
+        } else if (args.sort === 'Score') {
+          const movies = await Movie.find({
+            Title: new RegExp(args.title, 'i'),
+          })
+            .skip(args.offset)
+            .limit(args.first)
+            .sort({ Score: -1 })
+          return movies
+        }
         const movies = await Movie.find({
           Title: new RegExp(args.title, 'i'),
         })
-        let mov = [...movies]
-        // for (let i = 0; i < movies.length; i++) {
-        //   if (
-        //     movies[i].Title.toLowerCase().includes(args.title.toLowerCase())
-        //   ) {
-        //     console.log(movies[i].Title)
-        //     mov.push(movies[i])
-        //     console.log(mov.length)
-        //   }
-        // }
-        if (args.sort === 'Title') {
-          mov = mov.sort((a, b) => a.Title.localeCompare(b.Title))
-        } else if (args.sort === 'Score') {
-          mov = mov.sort((a, b) => b.Score - a.Score)
-        }
-        return mov.slice(args.offset, args.offset + args.first)
+        return movies
       },
     },
     testQuery: {
@@ -145,7 +120,6 @@ const RootQuery = new GraphQLObjectType({
       },
       async resolve(parent, args) {
         const movies = await Movie.find({ Score: { $elemMatch: { $gte: 8 } } })
-        let mov = []
         return movies
       },
     },
