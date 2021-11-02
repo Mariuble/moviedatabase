@@ -1,16 +1,35 @@
-# Project-3
+# Project-3 Search and filter in database
+Applikasjonen henter inn en rekke animes og presenterer tittel, score og episodenummeret. Det er mulig å sortere episodene etter score og tittel og man kan velge å søke på tittel eller score høyere eller lik søkeresultatet. Dersom man ønsker å å få mer informasjon om episoden kan man trykke nederst og tilleggsinformasjonen vil komme opp. 
 
-## Kjør applikasjonen
-Åpne terminalen i rotmappen. Skriv deretter npm i for å installere de avhengige pakkene. Start så applikasjonen lokalt ved å skrive npm run dev. Denne kommandoen vil kjøre serveren samtidig som frontend ved bruk av pakken, concurrently.
+## Kjør applikasjonen lokalt
+### Server
+Åpne terminalen i rotmappen. Gå så inn i backend slik `cd backend`.  
 
-## Info om appen
-Appen henter inn en rekke episoder og presenterer tittel, score og episodenummeret. Det er mulig å sortere episodene etter score og tittel og man kan velge å søke på tittel eller score høyere eller lik søkeresultatet. Dersom man ønsker å å få mer informasjon om episoden kan man trykke nederst og tilleggsinformasjonen vil komme opp. 
+Skriv deretter `npm i` for å installere de avhengige pakkene.
 
-## Redux
-Redux var tenkt til å brukes for å lagre Episodene/Filmene i store slik at man ikke trengte å laste inn alle hver gang man ønsket å sortere eller søke i databasen. Apollo cacher fra før, som gjorde at vi ikke hadde noe behov for å bruke redux til dette. Vi valgte fortsat å la redux store være med i prosjektet for å vise forståelsen av redux og lagring til store.
+Kjør backend applikasjonen ved å skrive `npm start`
 
-## Cypress
-Vi har valgt å utføre e2e(end to end) testing ved hjelp av **Cypress**. **Cypress** gjør det veldig enkelt å teste funksjonaliteten på siden. ved å kjøre npm test vil man få opp et vindu der man kan trykke på testfilen for å kjøre testene. Man kan enkelt lage tester på funksjonalitet ved å trykke på add new test. Deretter er det bare å trykke seg rundt for så å sjekke at riktig informasjon er på riktig sted. koden som trengs for å utføre testene vil deretter bli skrevet så å si av seg selv. **Cypress** har også mange plugins som man kan bruke, som gjør det lett å lage tester.
+### Client
+Åpne terminalen i rotmappen. Gå så inn i frontend slik `cd frontend`.  
+
+Skriv deretter `npm i` for å installere de avhengige pakkene.
+
+Kjør frontend applikasjonen ved å skrive `npm start`
+
+## Pagination
+Ved skalering av datasett, ønsker vi å kunne hente ut litt og litt data fra databasen. Dette gjør vi ved bruk av pagination med et fast antall elementer per side. Når brukeren trykker seg inn på en ny side, vil det skje en spørring som henter nye resultater. Spørringene blir sendt til databasen ved hjelp av GraphQL.
+
+## State management
+**Redux** var tenkt til å brukes for å lagre Filmene/ Animes i `store` slik at man ikke trengte å laste inn data fra databasen man allerede hadde hentet. **Apollo Client** implementerer InMemoryCache, som gjorde at vi ikke hadde noe behov for å bruke redux til dette. Vi valgte fortsat å la redux oppsettet være med i prosjektet for å vise forståelsen av redux og lagring til store uten integrering til applikasjonen.
+
+## Testing
+Vi har valgt å utføre e2e(end to end) testing ved hjelp av **Cypress**. Cypress gjør det veldig enkelt å teste funksjonaliteten på siden. ved å kjøre npm test vil man få opp et vindu der man kan trykke på testfilen for å kjøre testene. Man kan enkelt lage tester på funksjonalitet ved å trykke på add new test. Deretter er det bare å trykke seg rundt for så å sjekke at riktig informasjon er på riktig sted. koden som trengs for å utføre testene vil deretter bli skrevet så å si av seg selv. Cypress har også mange plugins som man kan bruke, som gjør det lett å lage tester.
+
+## Design
+For å presentere dataen på nettsiden har vi brukt UI biblioteket **Chakra UI**. Ved å bruke et eksternt UI bibliotek går implementasjon av responsivitet kjappere og bidrar til et oversiktlig og ryddig grensesnitt. Chakra UI ga også mulighet for å implementere eksisterende komponenter for applikasjonens funksjonalitet.
+
+## Accessibility
+Prinsipper, kriterier, krav
 
 ## Nyttige kilder
 
@@ -19,3 +38,6 @@ Vi har valgt å utføre e2e(end to end) testing ved hjelp av **Cypress**. **Cypr
 
 ### MongoDB
 - https://medium.com/swlh/how-to-create-your-first-mern-mongodb-express-js-react-js-and-node-js-stack-7e8b20463e66
+
+### Pagination med GraphQL
+- https://graphql.org/learn/pagination/
