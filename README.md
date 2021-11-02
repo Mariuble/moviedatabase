@@ -17,10 +17,16 @@ Skriv deretter `npm i` for å installere de avhengige pakkene.
 Kjør frontend applikasjonen ved å skrive `npm start`
 
 ## Pagination
-Ved skalering av datasett, ønsker vi å kunne hente ut litt og litt data fra databasen. Dette gjør vi ved bruk av pagination med et fast antall elementer per side. Når brukeren trykker seg inn på en ny side, vil det skje en spørring som henter nye resultater. Spørringene blir sendt til databasen ved hjelp av GraphQL.
+Ved skalering av datasett, ønsker vi å kunne hente ut litt og litt data fra databasen. Dette gjør vi ved bruk av "offset based pagination" i backend, med et fast antall resultater per side, som er satt av en grense, f.eks. 10 elementer av gangen. Gitt at der finnes nok elementer, og man deretter trykker "Next page", lastes det inn 10 nye elementer med et offset på 10, altså element 11-20 som matcher søkekriteriene osv. Når brukeren trykker seg inn på en ny side, vil det skje en spørring som henter nye resultater basert på parametrene som er relevante (søkeord og sorteringsmåte). Spørringene blir sendt til databasen ved hjelp av GraphQL som er koblet opp mot MongoDB.
+
+##Apollo Client
+For å håndtere dataen i prosjektet har vi valgt å bruke **Apollo Client**
 
 ## State management
 **Redux** var tenkt til å brukes for å lagre Filmene/ Animes i `store` slik at man ikke trengte å laste inn data fra databasen man allerede hadde hentet. **Apollo Client** implementerer InMemoryCache, som gjorde at vi ikke hadde noe behov for å bruke redux til dette, i tillegg er **Apollo** lett å implementere med **GraphQL**. Vi valgte fortsat å la redux oppsettet være med i prosjektet for å vise forståelsen av redux og lagring til store uten integrering til applikasjonen. Dette ligger under [AllEpisodes](https://gitlab.stud.idi.ntnu.no/it2810-h21/team-31/project-3/-/tree/master/frontend/src/components/AllEpisodes). Komponenten blir ikke brukt i appen.
+
+## Komponenter
+Vi har en rekke ulike komponenter for å hente/presentere data, blant annet en som står for rendering av "Anime" titler og informasjon om disse, i tillegg til en egen komponent for navbaren i toppen av siden, samt en for GraphQL spørringer for å koble backend med frontend. Komponenter importert fra Chakra nevnes nedenfor.
 
 ## Testing
 Vi har valgt å utføre e2e(end to end) testing ved hjelp av **Cypress**. Cypress gjør det veldig enkelt å teste funksjonaliteten på siden. ved å kjøre npm test vil man få opp et vindu der man kan trykke på testfilen for å kjøre testene. Man kan enkelt lage tester på funksjonalitet ved å trykke på add new test. Deretter er det bare å trykke seg rundt for så å sjekke at riktig informasjon er på riktig sted. koden som trengs for å utføre testene vil deretter bli skrevet så å si av seg selv. Cypress har også mange plugins som man kan bruke, som gjør det lett å lage tester. Vi har valgt å ikke lage egne enhetstester da vi tester alle kompoenentene i en helhet. For at end to end testene skal fungere så krever det at alle komponentene fungerer som de skal.
