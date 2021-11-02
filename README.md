@@ -20,7 +20,10 @@ Kjør frontend applikasjonen ved å skrive `npm start`
 Ved skalering av datasett, ønsker vi å kunne hente ut litt og litt data fra databasen. Dette gjør vi ved bruk av "offset based pagination" i backend, med et fast antall resultater per side, som er satt av en grense, f.eks. 10 elementer av gangen. Gitt at der finnes nok elementer, og man deretter trykker "Next page", lastes det inn 10 nye elementer med et offset på 10, altså element 11-20 som matcher søkekriteriene osv. Når brukeren trykker seg inn på en ny side, vil det skje en spørring som henter nye resultater basert på parametrene som er relevante (søkeord og sorteringsmåte). Spørringene blir sendt til databasen ved hjelp av GraphQL som er koblet opp mot MongoDB.
 
 ##Apollo Client
-For å håndtere dataen i prosjektet har vi valgt å bruke **Apollo Client**
+For å håndtere dataen i prosjektet har vi valgt å bruke **Apollo Client** grunnet dens gode cache-løsning, deklarativ data-fetching og utrolig god GraphQL implementasjon. Dette har gjort at vi ikke trengte å bruke Redux, nenvt i avsnittet om **State management**.
+
+##MongoDB
+Vi har valgt å bruke den collection-baserte teknologien MongoDB som databaseløsning. Måten den fungerer er at den lagrer data i formen av dokumenter som minner om JSON-dokumenter med dynamisk schema. Dette gjorde at vi lett kunne importere informasjonen med over 1500 film/serie-titler som var tiltenkt databasen med en lett konversjon fra JSON-format til MongoDB sin dokumentstruktur. Den har høy kapasitet på data, og gjør at spørringene på vår skala går lynraskt med metoder som **find** og **insert**, og tilbyr gode og enkle løsninger for vår "offset based pagination".
 
 ## State management
 **Redux** var tenkt til å brukes for å lagre Filmene/ Animes i `store` slik at man ikke trengte å laste inn data fra databasen man allerede hadde hentet. **Apollo Client** implementerer InMemoryCache, som gjorde at vi ikke hadde noe behov for å bruke redux til dette, i tillegg er **Apollo** lett å implementere med **GraphQL**. Vi valgte fortsat å la redux oppsettet være med i prosjektet for å vise forståelsen av redux og lagring til store uten integrering til applikasjonen. Dette ligger under [AllEpisodes](https://gitlab.stud.idi.ntnu.no/it2810-h21/team-31/project-3/-/tree/master/frontend/src/components/AllEpisodes). Komponenten blir ikke brukt i appen.
