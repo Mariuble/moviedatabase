@@ -37,6 +37,7 @@ const Animes = () => {
   const [baseFirst, setBaseFirst] = useState(10)
   const [baseOffset, setBaseOffset] = useState(0)
   const [searchWord, setSearchWord] = useState('Search any title')
+  const [searchInput, setsearchInput] = useState('Search any title')
   const [pageNo, setPageNo] = useState(1)
   const [sortOn, setSort] = useState('Title')
   const { loading, error, data, refetch } = useQuery(ANIMES_SORTED_TITLE, {
@@ -64,14 +65,21 @@ const Animes = () => {
     variables: { title: baseTitle },
   })
 
-  const handleSearch = (e: any) => {
+  const handleSearch = () => {
+    setBaseTitle(searchInput)
+    setBaseOffset(0)
+    setSearchWord(searchInput)
+    setPageNo(1)
+  }
+
+  const handleUpdate = (e: any) => {
     if (e.key === 'Enter') {
-      setBaseTitle(e.target.value)
-      setBaseOffset(0)
-      setSearchWord(e.target.value)
-      setPageNo(1)
+      handleSearch()
+    } else {
+      setsearchInput(e.target.value)
     }
   }
+
   const handlePrevPage = () => {
     if (baseOffset >= baseFirst) {
       setBaseOffset(baseOffset - 10)
@@ -169,9 +177,13 @@ const Animes = () => {
           width='40%'
           placeholder={searchWord}
           variant='outline'
-          onKeyDown={handleSearch}
+          onKeyDown={(e) => handleUpdate(e)}
         />
-        <IconButton aria-label='Search database' icon={<SearchIcon />} />
+        <IconButton
+          onClick={handleSearch}
+          aria-label='Search database'
+          icon={<SearchIcon />}
+        />
       </InputGroup>
       <DropdownButton
         title={sortOn}
