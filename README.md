@@ -19,10 +19,10 @@ Kjør frontend applikasjonen ved å skrive `npm start`
 ## Pagination
 Ved skalering av datasett, ønsker vi å kunne hente ut litt og litt data fra databasen. Dette gjør vi ved bruk av "offset based pagination" i backend, med et fast antall resultater per side, som er satt av en grense, f.eks. 10 elementer av gangen. Gitt at der finnes nok elementer, og man deretter trykker "Next page", lastes det inn 10 nye elementer med et offset på 10, altså element 11-20 som matcher søkekriteriene osv. Når brukeren trykker seg inn på en ny side, vil det skje en spørring som henter nye resultater basert på parametrene som er relevante (søkeord og sorteringsmåte). Spørringene blir sendt til databasen ved hjelp av GraphQL som er koblet opp mot MongoDB.
 
-##Apollo Client
+## Apollo Client
 For å håndtere dataen i prosjektet har vi valgt å bruke **Apollo Client** grunnet dens gode cache-løsning, deklarativ data-fetching og utrolig god GraphQL implementasjon. Dette har gjort at vi ikke trengte å bruke Redux, nenvt i avsnittet om **State management**.
 
-##MongoDB
+## MongoDB
 Vi har valgt å bruke den collection-baserte teknologien MongoDB som databaseløsning. Måten den fungerer er at den lagrer data i formen av dokumenter som minner om JSON-dokumenter med dynamisk schema. Dette gjorde at vi lett kunne importere informasjonen med over 1500 film/serie-titler som var tiltenkt databasen med en lett konversjon fra JSON-format til MongoDB sin dokumentstruktur. Den har høy kapasitet på data, og gjør at spørringene på vår skala går lynraskt med metoder som **find** og **insert**, og tilbyr gode og enkle løsninger for vår "offset based pagination".
 
 ## State management
@@ -39,7 +39,7 @@ For å presentere dataen på nettsiden har vi brukt UI biblioteket **Chakra UI**
 
 ## Accessibility
 Prinsipper, kriterier, krav
-Vi har gjort noen små tiltak for å gjøre at siden kan brukes av folk med nedsatt funksjonsevne. Vi har testet ved å bruke en _screen reader_. Vi har brukt aria og har blant annet satt på labler for å gjøre det enkelt for de med nedsatt syn. Når de hovrer elementer som er viktige vil en enkel label fortelle dem hva de ulike knappene gjør, og hva de ulike delene er. **Chakra** har en innebygd funksjon som for eksempel at sorteringsfilteret sier ifra hvis den er åpen eller lukket. Alle seriene og filmene vil bli lest opp og dersom man åpner den opp kan man blå seg ned til beskrivelsen og den vil bli lest opp for brukeren. 
+Vi har gjort noen små tiltak for å gjøre at siden kan brukes av folk med nedsatt funksjonsevne. Vi har testet ved å bruke en _screen reader_ utvidelse for Google Chrome. Vi har brukt arialabels for å sette på labler for å gjøre det enkelt for de med nedsatt syn. Når de hovrer elementer som er viktige vil en enkel label fortelle dem hva de ulike knappene gjør, og hva de ulike delene er. **Chakra** har en innebygd funksjon som for eksempel at sorteringsfilteret sier ifra hvis den er åpen eller lukket. Alle seriene og filmene vil bli lest opp og dersom man åpner den opp kan man blå seg ned til beskrivelsen og den vil bli lest opp for brukeren. 
 
 ## Nyttige kilder
 
