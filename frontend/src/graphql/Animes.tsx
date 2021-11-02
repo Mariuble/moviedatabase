@@ -178,15 +178,17 @@ const Animes = () => {
           placeholder={searchWord}
           variant='outline'
           onKeyDown={(e) => handleUpdate(e)}
+          aria-label='Searchfield'
         />
         <IconButton
           onClick={handleSearch}
-          aria-label='Search database'
+          aria-label='Search button'
           icon={<SearchIcon />}
         />
       </InputGroup>
       <DropdownButton
-        title={sortOn}
+        title='Sort list on'
+        aria-label='Sort list By'
         id='dropdown-menu2'
         onSelect={handleFilter}
       >
