@@ -178,7 +178,7 @@ const Animes = () => {
           width='40%'
           placeholder={searchWord}
           variant='outline'
-          onKeyDown={(e) => handleUpdate(e)}
+          onKeyUp={(e) => handleUpdate(e)}
           aria-label='Searchfield'
         />
         <IconButton
