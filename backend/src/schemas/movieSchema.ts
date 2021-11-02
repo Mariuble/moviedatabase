@@ -128,8 +128,33 @@ const RootQuery = new GraphQLObjectType({
 
 // Mutation query under here...
 
+const RootMutation = new GraphQLObjectType({
+  name: 'RootMutationType',
+  fields: {
+    addMovie: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        type: { type: GraphQLString },
+        episodes: { type: GraphQLInt },
+        description: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        await Movie.insertMany({
+          Title: args.title,
+          Type: args.type,
+          Episodes: args.episodes,
+          Description: args.description,
+        })
+      },
+    },
+    //Query tags
+  },
+})
+
 const schema = new GraphQLSchema({
   query: RootQuery,
+  mutation: RootMutation,
 })
 
 export default schema
