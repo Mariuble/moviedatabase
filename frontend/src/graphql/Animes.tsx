@@ -1,6 +1,13 @@
 import React, { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
-import { Box, Spinner } from '@chakra-ui/react'
+import {
+  Box,
+  IconButton,
+  InputGroup,
+  Skeleton,
+  Spinner,
+  Stack,
+} from '@chakra-ui/react'
 import {
   Table,
   Thead,
@@ -17,50 +24,12 @@ import {
 } from '@chakra-ui/react'
 import { Dropdown, DropdownButton } from 'react-bootstrap'
 import { filterStore, setFilter } from '..'
-
-export const SEARCH_ANIMES = gql`
-  query RootQueryType($title: String!, $first: Int!, $offset: Int!) {
-    movieByTitle(title: $title, first: $first, offset: $offset) {
-      Title
-      Type
-      Score
-    }
-  }
-`
-export const ANIMES_SORTED_TITLE = gql`
-  query RootQueryType(
-    $title: String!
-    $first: Int!
-    $offset: Int!
-    $sort: String
-  ) {
-    sortMoviesByTitle(
-      title: $title
-      first: $first
-      offset: $offset
-      sort: $sort
-    ) {
-      Title
-      Type
-      Score
-    }
-  }
-`
-export const TEST_QUERY = gql`
-  query RootQueryType($title: String!, $first: Int!, $offset: Int!) {
-    testQuery(title: $title, first: $first, offset: $offset) {
-      Title
-      Type
-      Score
-    }
-  }
-`
-
-export const GET_ANIME_COUNT = gql`
-  query RootQueryType($title: String) {
-    countMoviesByTitle(title: $title)
-  }
-`
+import {
+  ANIMES_SORTED_TITLE,
+  GET_ANIME_COUNT,
+  TEST_QUERY,
+} from './GraphQLQueries'
+import { SearchIcon } from '@chakra-ui/icons'
 
 const Animes = () => {
   const [baseTitle, setBaseTitle] = useState('')
@@ -173,13 +142,20 @@ const Animes = () => {
 
   if (loading || loading2 || loading3)
     return (
-      <Spinner
-        thickness='4px'
-        speed='0.65s'
-        emptyColor='gray.200'
-        color='blue.500'
-        size='xl'
-      />
+      <Box textAlign='center'>
+        <Spinner
+          thickness='4px'
+          speed='0.65s'
+          emptyColor='gray.200'
+          color='blue.500'
+          size='xl'
+        />
+        <Stack>
+          <Skeleton height='20px' />
+          <Skeleton height='20px' />
+          <Skeleton height='20px' />
+        </Stack>
+      </Box>
     )
   console.log(data3)
   console.log('Offset: ' + baseOffset)
@@ -187,7 +163,15 @@ const Animes = () => {
   console.log(data)
   return (
     <div>
-      <Input placeholder={searchWord} onKeyDown={handleSearch} />
+      <InputGroup>
+        <Input
+          width='40%'
+          placeholder={searchWord}
+          variant='outline'
+          onKeyDown={handleSearch}
+        />
+        <IconButton aria-label='Search database' icon={<SearchIcon />} />
+      </InputGroup>
       <DropdownButton
         title={sortOn}
         id='dropdown-menu2'
@@ -224,12 +208,6 @@ const Animes = () => {
           Check stats
         </Button>
       </Box>
-      {/* {data.map((item: { Title: {} | null | undefined }) => (
-        <tr>
-          <td>{item.Title}</td>
-          <td>{item.Title}</td>
-        </tr>
-      ))} */}
     </div>
   )
 }
