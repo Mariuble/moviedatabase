@@ -14,6 +14,7 @@ import Navbar from './components/Navbar'
 import MovieForm from './components/MovieForm'
 import { ChakraProvider, Heading } from '@chakra-ui/react'
 import Animes from './graphql/Animes'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 
 function App() {
   const client = new ApolloClient({
@@ -25,10 +26,21 @@ function App() {
     <ApolloProvider client={client}>
       <ChakraProvider>
         <Navbar />
-        <Heading textAlign='center'>Animes go here</Heading>
-        <div>
-          <Animes />
-        </div>
+        <Router>
+          <Route exact path='/'>
+            <Redirect to='/Anime' />
+          </Route>
+          <Route path='/Anime'>
+            <div>
+              <Animes />
+            </div>
+          </Route>
+          <Route path='/RegisterMovie'>
+            <div>
+              <MovieForm />
+            </div>
+          </Route>
+        </Router>
       </ChakraProvider>
     </ApolloProvider>
   )

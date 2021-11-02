@@ -18,6 +18,9 @@ import {
   HStack,
 } from '@chakra-ui/react'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { Route, Router } from 'react-router'
+import MovieForm from './MovieForm'
+import Animes from '../graphql/Animes'
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -51,9 +54,12 @@ export default function Nav() {
           <h1>Project-3</h1>
 
           <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-            {Links.map((link) => (
-              <NavLink key={link}>{link}</NavLink>
-            ))}
+            <Link href='/Anime' key={Links[0]}>
+              {Links[0]}
+            </Link>
+            <Link href='/RegisterMovie' component={MovieForm} key={Links[1]}>
+              {Links[1]}
+            </Link>
           </HStack>
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
