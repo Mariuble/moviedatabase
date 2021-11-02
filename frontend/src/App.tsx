@@ -11,7 +11,6 @@ import { Episode } from './store/action/Type'
 import store from './store/Store'
 // import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import Movies from './components/Episode/Movies'
 import MovieForm from './components/MovieForm'
 import { ChakraProvider, Heading } from '@chakra-ui/react'
 import Animes from './graphql/Animes'
@@ -25,6 +24,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
+        <Navbar />
         <Heading textAlign='center'>Animes go here</Heading>
         <div>
           <Animes />

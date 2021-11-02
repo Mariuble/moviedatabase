@@ -16,6 +16,8 @@ export const ANIMES_SORTED_TITLE = gql`
       Title
       Type
       Score
+      Episodes
+      Description
     }
   }
 `
