@@ -7,7 +7,6 @@ import {
   Heading,
   Tag,
 } from '@chakra-ui/react'
-import { useFocus } from '@react-aria/interactions'
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { Episode } from '../../store/action/Type'

@@ -6,6 +6,7 @@ import {
   GraphQLSchema,
   GraphQLString,
 } from 'graphql'
+import { argsToArgsConfig } from 'graphql/type/definition'
 import { title } from 'process'
 import Movie from '../models/movieModel'
 
@@ -148,6 +149,17 @@ const RootMutation = new GraphQLObjectType({
           Episodes: args.episodes,
           Score: args.score,
           Description: args.description,
+        })
+      },
+    },
+    deleteMovie: {
+      type: new GraphQLList(MovieType),
+      args: {
+        id: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        await Movie.deleteOne({
+          _id: args.id,
         })
       },
     },
