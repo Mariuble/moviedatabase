@@ -30,6 +30,7 @@ import {
   TEST_QUERY,
 } from './GraphQLQueries'
 import { SearchIcon } from '@chakra-ui/icons'
+import Movie from '../components/Episode/Movie'
 
 const Animes = () => {
   const [baseTitle, setBaseTitle] = useState('')
@@ -194,25 +195,7 @@ const Animes = () => {
         <Dropdown.Item eventKey='None'>None</Dropdown.Item>
         <Dropdown.Divider />
       </DropdownButton>
-      <Table variant='striped' colorScheme='blue'>
-        <PageNo />
-        <Thead>
-          <Tr>
-            <Th>Title</Th>
-            <Th>Type</Th>
-            <Th>Score</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.sortMoviesByTitle.map((movie: any) => (
-            <Tr>
-              <Td>{movie.Title}</Td>
-              <Td>{movie.Type}</Td>
-              <Td>{movie.Score}</Td>
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
+      <ul>{data.sortMoviesByTitle.map((movie: any) => Movie(movie))}</ul>
       <Box textAlign='center'>
         <PrevBtn />
         <NextBtn />
