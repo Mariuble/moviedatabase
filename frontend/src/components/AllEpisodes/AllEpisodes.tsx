@@ -2,10 +2,22 @@ import { setUncaughtExceptionCaptureCallback } from 'process'
 import { stringify } from 'querystring'
 import React, { useState } from 'react'
 import { connect, useSelector } from 'react-redux'
-import { EpisodeState } from '../store/action/Type'
-import { Episode } from '../store/action/Type'
-import store from '../store/Store'
-import { DropdownButton, Dropdown } from 'react-bootstrap'
+import { EpisodeState } from '../../store/action/Type'
+import { Episode } from '../../store/action/Type'
+import store from '../../store/Store'
+import { DropdownButton, Dropdown, Col, Row } from 'react-bootstrap'
+import './AllEpisodes.css'
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Button,
+  Heading,
+  Tag,
+} from '@chakra-ui/react'
 
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
@@ -14,6 +26,7 @@ export const SearchField = (props: any) => {
   const [text, setText] = useState('')
   const [searchBy, setSearch] = useState('Title')
   const [SortOn, setSort] = useState('Title')
+
   const handleSearch = (e: any) => {
     console.log(e)
     setSearch(e)
@@ -34,7 +47,28 @@ export const SearchField = (props: any) => {
    */
 
   function renderEpisodes(episode: Episode) {
-    return search(episode)
+    return (
+      <div>
+        <Accordion allowToggle className='m-1' boxShadow='base' rounded='xl'>
+          <AccordionItem className='p-3 m-2'>
+            <AccordionButton className=''>
+              <Col>
+                <Row>
+                  <Heading as='h5' size='md'>
+                    {episode.title}
+                  </Heading>
+                </Row>
+                <Tag className='m-1'>Score: {episode.score}</Tag>
+                <Tag className='m-1'>Type: {episode.type}</Tag>
+                <Tag className='m-1'>Episodes: {episode.episode}</Tag>
+              </Col>
+              <AccordionIcon />
+            </AccordionButton>
+            <AccordionPanel>{episode.desc}</AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    )
   }
 
   /**
@@ -49,36 +83,14 @@ export const SearchField = (props: any) => {
       searchBy == 'Title' &&
       text.length != 0
     ) {
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
+      return renderEpisodes(episode)
     } else if (
-      episode.score >= parseInt(text) &&
+      episode.score >= parseFloat(text) &&
       searchBy == 'Score' &&
       text.length != 0
     ) {
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
-    } else if (text.length == 0)
-      return (
-        <div>
-          <h1>{episode.title}</h1>
-          <p>Viewer rating: {episode.score}</p>
-          <p>Episode nr: {episode.episode}</p>
-          <a href=''>See more</a>
-        </div>
-      )
+      return renderEpisodes(episode)
+    } else if (text.length == 0) return renderEpisodes(episode)
   }
 
   /**
@@ -94,9 +106,9 @@ export const SearchField = (props: any) => {
     } else if (SortOn == 'Score') {
       sorted = sorted.sort((a, b) => b.score - a.score)
     } else {
-      return episodes.map(renderEpisodes)
+      return episodes.map(search)
     }
-    return sorted.map(renderEpisodes)
+    return sorted.map(search)
   }
 
   return (
@@ -125,8 +137,10 @@ export const SearchField = (props: any) => {
         <Dropdown.Item eventKey='None'>None</Dropdown.Item>
         <Dropdown.Divider />
       </DropdownButton>
-      <h1>{store.getState}</h1>
-      <h2>{HelpSort(episodes)}</h2>
+      <Box flex='1' textAlign='center' className='p-1'>
+        <Heading className='m-3'>Animes</Heading>
+        <ul>{HelpSort(episodes)}</ul>
+      </Box>
     </div>
   )
   function updateInput(value: string) {

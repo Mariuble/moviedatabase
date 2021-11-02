@@ -1,10 +1,12 @@
 import {
+  GraphQLFloat,
   GraphQLInt,
   GraphQLList,
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLString,
 } from 'graphql'
+import { title } from 'process'
 import Movie from '../models/movieModel'
 
 // Object type, gql vs. GraphQLObjectType??
@@ -35,7 +37,7 @@ import Movie from '../models/movieModel'
 const MovieType = new GraphQLObjectType({
   name: 'movie',
   fields: () => ({
-    Id: { type: GraphQLString },
+    _id: { type: GraphQLString },
     Title: { type: GraphQLString },
     Type: { type: GraphQLString },
     Episodes: { type: GraphQLInt },
@@ -48,10 +50,10 @@ const MovieType = new GraphQLObjectType({
     Licensors: { type: GraphQLString },
     Studios: { type: GraphQLString },
     Sources: { type: GraphQLString },
-    Genres: { type: GraphQLList(GraphQLString) },
+    Genres: { type: GraphQLString },
     Duration: { type: GraphQLString },
     Rating: { type: GraphQLString },
-    Score: { type: GraphQLInt },
+    Score: { type: GraphQLFloat },
     Scored_by: { type: GraphQLInt },
     Members: { type: GraphQLInt },
     Favorites: { type: GraphQLInt },
@@ -64,13 +66,62 @@ const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
     //Query tags
-    movie: {
-      type: new GraphQLList(MovieType),
-      args: { Id: { type: GraphQLString } },
+    countMoviesByTitle: {
+      type: GraphQLInt,
+      args: {
+        title: { type: GraphQLString },
+      },
       async resolve(parent, args) {
-        // Get data from db
-        const movies = await Movie.find({})
-        return [...movies]
+        const movies = await Movie.count({
+          Title: new RegExp(args.title, 'i'),
+        })
+        return movies
+      },
+    },
+    sortMoviesByTitle: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        first: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        sort: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        //Finds all documents with a title containing the text from the search field, paginates based on the offset and limits results per query by "first"(limit), and then sorts the output based on the selected sorting value
+        if (args.sort === 'Title') {
+          const movies = await Movie.find({
+            Title: new RegExp(args.title, 'i'),
+          })
+            .skip(args.offset)
+            .limit(args.first)
+            .sort({ Title: 1 })
+          return movies
+        } else if (args.sort === 'Score') {
+          const movies = await Movie.find({
+            Title: new RegExp(args.title, 'i'),
+          })
+            .skip(args.offset)
+            .limit(args.first)
+            .sort({ Score: -1 })
+          return movies
+        }
+        const movies = await Movie.find({
+          Title: new RegExp(args.title, 'i'),
+        })
+        return movies
+      },
+    },
+    testQuery: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        first: { type: GraphQLInt },
+        offset: { type: GraphQLInt },
+        sorting: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        const movies = await Movie.find({ Score: { $elemMatch: { $gte: 8 } } })
+        return movies
       },
     },
   },
@@ -78,8 +129,34 @@ const RootQuery = new GraphQLObjectType({
 
 // Mutation query under here...
 
+const RootMutation = new GraphQLObjectType({
+  name: 'RootMutationType',
+  fields: {
+    addMovie: {
+      type: new GraphQLList(MovieType),
+      args: {
+        title: { type: GraphQLString },
+        type: { type: GraphQLString },
+        episodes: { type: GraphQLInt },
+        score: { type: GraphQLFloat },
+        description: { type: GraphQLString },
+      },
+      async resolve(parent, args) {
+        await Movie.insertMany({
+          Title: args.title,
+          Type: args.type,
+          Episodes: args.episodes,
+          Score: args.score,
+          Description: args.description,
+        })
+      },
+    },
+  },
+})
+
 const schema = new GraphQLSchema({
   query: RootQuery,
+  mutation: RootMutation,
 })
 
 export default schema

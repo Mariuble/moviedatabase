@@ -1,5 +1,5 @@
-import { Episode, EpisodeAction, EpisodeState } from "./action/Type";
-import * as actionType from "./action/ActionTypes"
+import { Episode, EpisodeAction, EpisodeState } from './action/Type'
+import * as actionType from './action/ActionTypes'
 
 /*
 const initialState: EpisodeState = {
@@ -7,58 +7,56 @@ const initialState: EpisodeState = {
 }   
 */
 
+function removeDuplicates(duplicateEpisodes: Episode[]) {
+  const store = new Set(duplicateEpisodes)
+  const turnToArray = [...store]
+  return turnToArray
+}
+
 /**
  * Tar inn en state og en action som ønskes å utføre
  * Sjekker hvilken Action som ønsker å utføre, går inn i different cases
  * Dersom casen tilsvarer action typen så ønsker vi å lage en ny episode og legge den til i state
- * 
+ *
  * @param state Store state
  * @param action Handling vi ønsker å utføre, feks addEpisode
  * @returns en oppdatert state
  */
 const initialState: EpisodeState = {
-    episodes: [
-    {
-        title: "test",
-        episode: 2,
-        score: 6,
-    },
-    {
-        title: "Øverst på score",
-        episode: 19,
-        score: 10,
-    },
-    {
-        title: "test3",
-        episode: 8,
-        score: 7,
-    },
-    {
-        title: "test4",
-        episode: 6,
-        score: 10,
-    },
-    ]
+  episodes: [],
 }
 
 const reducer = (
-    state: EpisodeState = initialState,
-    action: EpisodeAction,
+  state: EpisodeState = initialState,
+  action: EpisodeAction
 ): EpisodeState => {
-    switch (action.type) {
-        case actionType.ADD_EPISODE:
-            const newEpisode: Episode = {
-                title: action.episode.title,
-                episode: action.episode.episode,
-                score: action.episode.score,
-            }
-        return {
-            ...state,
-            episodes: state.episodes.concat(newEpisode),
+  switch (action.type) {
+    case actionType.ADD_EPISODE:
+      const newEpisode: Episode = {
+        title: action.episode.title,
+        episode: action.episode.episode,
+        score: action.episode.score,
+        type: action.episode.type,
+        desc: action.episode.desc,
+      }
+      state.episodes.forEach((episode) => {
+        if (episode.title == newEpisode.title) {
+          console.log('DUPLICATE ' + episode.title + ' ' + newEpisode.title)
+          return state
         }
-        default:
-            return state
-    }
+      })
+      console.log('LEGGER TIL')
+      return {
+        ...state,
+        episodes: state.episodes
+          .filter((episode) => episode.title != newEpisode.title)
+          .concat(newEpisode),
+
+        //episodes: removeDuplicates(state.episodes),
+      }
+    default:
+      return state
+  }
 }
 
 export default reducer
