@@ -135,12 +135,12 @@ const Animes = () => {
 
   function PageNo() {
     return (
-      <TableCaption>
+      <p>
         Showing results {baseOffset + 1} -{' '}
         {baseOffset + data.sortMoviesByTitle.length} of{' '}
         {data2.countMoviesByTitle} results
         <Heading>Page {pageNo}</Heading>
-      </TableCaption>
+      </p>
     )
   }
 
@@ -202,9 +202,10 @@ const Animes = () => {
       <Box textAlign='center'>
         <PrevBtn />
         <NextBtn />
-        <Button colorScheme='blue' onClick={handleNextPage2}>
+        {/* <Button colorScheme='blue' onClick={handleNextPage2}>
           Check stats
-        </Button>
+        </Button> */}
+        <PageNo />
       </Box>
     </div>
   )
