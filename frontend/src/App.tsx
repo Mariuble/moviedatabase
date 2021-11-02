@@ -24,9 +24,9 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        <CSSReset />
         <Navbar />
-        <MovieForm />
+        <AllEpisodes></AllEpisodes>
+        <Movies />
       </ChakraProvider>
     </ApolloProvider>
   )

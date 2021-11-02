@@ -7,6 +7,12 @@ const initialState: EpisodeState = {
 }   
 */
 
+function removeDuplicates(duplicateEpisodes: Episode[]) {
+  const store = new Set(duplicateEpisodes)
+  const turnToArray = [...store]
+  return turnToArray
+}
+
 /**
  * Tar inn en state og en action som ønskes å utføre
  * Sjekker hvilken Action som ønsker å utføre, går inn i different cases
@@ -30,10 +36,23 @@ const reducer = (
         title: action.episode.title,
         episode: action.episode.episode,
         score: action.episode.score,
+        type: action.episode.type,
+        desc: action.episode.desc,
       }
+      state.episodes.forEach((episode) => {
+        if (episode.title == newEpisode.title) {
+          console.log('DUPLICATE ' + episode.title + ' ' + newEpisode.title)
+          return state
+        }
+      })
+      console.log('LEGGER TIL')
       return {
         ...state,
-        episodes: state.episodes.concat(newEpisode),
+        episodes: state.episodes
+          .filter((episode) => episode.title != newEpisode.title)
+          .concat(newEpisode),
+
+        //episodes: removeDuplicates(state.episodes),
       }
     default:
       return state

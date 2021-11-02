@@ -2,9 +2,10 @@ import { gql } from '@apollo/client'
 
 export const SEARCH_MOVIES = gql`
   query RootQueryType {
-    movieByTitle(title: "code", first: 5, offset: 5) {
+    movieByTitle(title: "", first: 5, offset: 5) {
       Title
       Score
+      Episodes
       Type
       Description
     }
