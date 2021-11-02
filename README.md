@@ -30,7 +30,7 @@ For å presentere dataen på nettsiden har vi brukt UI biblioteket **Chakra UI**
 
 ## Accessibility
 Prinsipper, kriterier, krav
-Vi har gjort noen små tiltak for å gjøre at siden kan brukes av folk med nedsatt funksjonsevne. Vi har testet ved å bruke en _screen reader_. Vi har brukt aria og blant annet satt på labler for å gjøre det enkelt for de med nedsatt syn. Når de hovrer elementer som er viktige vil en enkel label fortelle dem hva de ulike knappene gjør, og hva de ulike delene er. **Chakra** har en innebygd funksjon som for eksempel at sorteringsfilteret sier ifra hvis den er åpen eller lukket. Alle seriene og filmene vil bli lest opp og dersom man åpner den opp kan man blå seg ned til beskrivelsen og den vil bli lest opp for brukeren. 
+Vi har gjort noen små tiltak for å gjøre at siden kan brukes av folk med nedsatt funksjonsevne. Vi har testet ved å bruke en _screen reader_. Vi har brukt aria og har blant annet satt på labler for å gjøre det enkelt for de med nedsatt syn. Når de hovrer elementer som er viktige vil en enkel label fortelle dem hva de ulike knappene gjør, og hva de ulike delene er. **Chakra** har en innebygd funksjon som for eksempel at sorteringsfilteret sier ifra hvis den er åpen eller lukket. Alle seriene og filmene vil bli lest opp og dersom man åpner den opp kan man blå seg ned til beskrivelsen og den vil bli lest opp for brukeren. 
 
 ## Nyttige kilder
 
