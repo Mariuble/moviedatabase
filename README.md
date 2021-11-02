@@ -9,6 +9,8 @@ Appen henter inn en rekke episoder og presenterer tittel, score og episodenummer
 ## Redux
 Redux var tenkt til å brukes for å lagre Episodene/Filmene i store slik at man ikke trengte å laste inn alle hver gang man ønsket å sortere eller søke i databasen. Apollo cacher fra før, som gjorde at vi ikke hadde noe behov for å bruke redux til dette. Vi valgte fortsat å la redux store være med i prosjektet for å vise forståelsen av redux og lagring til store.
 
+## Cypress
+
 ## Nyttige kilder
 
 ### Redux 
