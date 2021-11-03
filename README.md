@@ -7,6 +7,13 @@ Applikasjonen henter inn en rekke animes og presenterer tittel, score og episode
 
 Skriv deretter `npm i` for å installere de avhengige pakkene.
 
+legg til en .env fil på rotnivå og kopier inn `NODE_ENV = development
+PORT = 5000
+MONGO_URI = mongodb+srv://group31:gabriel@data.qc5tz.mongodb.net/moviesdb?retryWrites=true&w=majority
+JWT_SECRET = abc123
+ATLAS_USER = group31
+ATLAS_PWD = gabriel`
+
 Kjør backend applikasjonen ved å skrive `npm start`
 
 ### Client
