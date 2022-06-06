@@ -1,74 +1,25 @@
-import { setUncaughtExceptionCaptureCallback } from 'process'
-import { stringify } from 'querystring'
-import React, { useState } from 'react'
-import { connect, useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { EpisodeState } from '../../store/action/Type'
 import { Episode } from '../../store/action/Type'
-import store from '../../store/Store'
-import { DropdownButton, Dropdown, Col, Row } from 'react-bootstrap'
+import { DropdownButton, Dropdown } from 'react-bootstrap'
 import './AllEpisodes.css'
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Box,
-  Button,
-  Heading,
-  Tag,
-} from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
+import EpisodeComponent from '../Episode/EpisodeComponent'
 
 //PASS PÅ ANY
 export const SearchField = (props: any) => {
   const episodes = useSelector((state: EpisodeState) => state.episodes)
-  const options = ['score', 'title']
   const [text, setText] = useState('')
   const [searchBy, setSearch] = useState('Title')
   const [SortOn, setSort] = useState('Title')
 
   const handleSearch = (e: any) => {
-    console.log(e)
     setSearch(e)
   }
 
   const handleFilter = (e: any) => {
-    console.log(e)
     setSort(e)
-  }
-
-  /**
-   * Rendrer hver enkel episode. Har et filter som bestemmer om man vil søke etter episoder med høyere eller lik score
-   * Har man tittel som valg sjekker man om tittelen inneholder søket.
-   * Hvis det ikke er noe i søkefeltet så vises alle.
-   *
-   * @param episode episoden man skal mappe
-   * @returns En episode med tittel, score og episodenr
-   */
-
-  function renderEpisodes(episode: Episode) {
-    return (
-      <div>
-        <Accordion allowToggle className='m-1' boxShadow='base' rounded='xl'>
-          <AccordionItem className='p-3 m-2'>
-            <AccordionButton className=''>
-              <Col>
-                <Row>
-                  <Heading as='h5' size='md'>
-                    {episode.title}
-                  </Heading>
-                </Row>
-                <Tag className='m-1'>Score: {episode.score}</Tag>
-                <Tag className='m-1'>Type: {episode.type}</Tag>
-                <Tag className='m-1'>Episodes: {episode.episode}</Tag>
-              </Col>
-              <AccordionIcon />
-            </AccordionButton>
-            <AccordionPanel>{episode.desc}</AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-      </div>
-    )
   }
 
   /**
@@ -83,14 +34,14 @@ export const SearchField = (props: any) => {
       searchBy == 'Title' &&
       text.length != 0
     ) {
-      return renderEpisodes(episode)
+      return EpisodeComponent(episode)
     } else if (
       episode.score >= parseFloat(text) &&
       searchBy == 'Score' &&
       text.length != 0
     ) {
-      return renderEpisodes(episode)
-    } else if (text.length == 0) return renderEpisodes(episode)
+      return EpisodeComponent(episode)
+    } else if (text.length == 0) return EpisodeComponent(episode)
   }
 
   /**
@@ -143,9 +94,6 @@ export const SearchField = (props: any) => {
       </Box>
     </div>
   )
-  function updateInput(value: string) {
-    setText(value)
-  }
 }
 
 export default SearchField
